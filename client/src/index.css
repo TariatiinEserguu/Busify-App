@@ -1,0 +1,135 @@
+@import 'tailwindcss';
+
+/* Fonts (IBM Plex, Latin + Cyrillic) and Leaflet styles are imported in main.tsx
+   so Vite bundles their files locally — no external font requests. */
+
+@theme {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', 'Consolas', monospace;
+
+  /* Brand: a transit blue, used for primary actions, the active route and focus. */
+  --color-brand-50: #eff5ff;
+  --color-brand-100: #dbe8fe;
+  --color-brand-200: #bfd5fe;
+  --color-brand-300: #93b8fd;
+  --color-brand-400: #6093fa;
+  --color-brand-500: #3b6ef6;
+  --color-brand-600: #2553eb;
+  --color-brand-700: #1d41d8;
+  --color-brand-800: #1e37af;
+  --color-brand-900: #1e338a;
+  --color-brand-950: #172154;
+
+  /* Surfaces and text (cool neutrals). */
+  --color-canvas: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-line: #e3e8ef;
+  --color-line-strong: #cdd5e0;
+  --color-ink: #0f1a2b;
+  --color-ink-muted: #4a5568;
+  --color-ink-subtle: #6b7789;
+
+  --radius-card: 0.875rem;
+
+  --animate-alert-ring: alert-ring 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  --animate-fade-in: fade-in 160ms ease-out;
+  --animate-slide-up: slide-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  @keyframes alert-ring {
+    0% { transform: scale(0.9); opacity: 0.55; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+    font-feature-settings: 'tnum' 0;
+  }
+  ::selection {
+    @apply bg-brand-100 text-brand-950;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Leaflet customisation ------------------------------------------------ */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: #e8edf3;
+}
+.leaflet-control-attribution {
+  font-size: 10px;
+}
+.leaflet-tooltip.busify-tooltip {
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgb(15 26 43 / 0.12);
+  color: var(--color-ink);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+.leaflet-tooltip.busify-tooltip::before {
+  display: none;
+}
+
+/* Passenger position: a blue dot with a soft pulse. */
+.busify-user-dot {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.busify-user-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: rgb(37 83 235 / 0.35);
+  animation: alert-ring 2s ease-out infinite;
+}
+.busify-user-dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 9999px;
+  background: var(--color-brand-600);
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgb(15 26 43 / 0.35);
+}
+.busify-user-dot.is-simulated::after {
+  background: #7c3aed;
+}
+.busify-user-dot.is-simulated::before {
+  background: rgb(124 58 237 / 0.3);
+}
+
+/* Destination stop: a pin with a flag. */
+.busify-destination-pin {
+  filter: drop-shadow(0 2px 3px rgb(15 26 43 / 0.35));
+}
