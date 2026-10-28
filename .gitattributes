@@ -1,0 +1,5 @@
+* text=auto
+# Windows batch files are stored with CRLF line endings in the repository itself,
+# so they also work when the project is downloaded as a ZIP.
+*.bat -text
+*.png binary
