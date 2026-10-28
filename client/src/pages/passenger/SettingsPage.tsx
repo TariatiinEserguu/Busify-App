@@ -216,7 +216,8 @@ function LocationSettings() {
             <li>iPhone: Settings → Privacy & Security → Location Services → Safari Websites → While Using.</li>
           </ul>
           <p className="mt-2">
-            Your raw coordinates stay in your browser. BUSIFY only stores the distance to your stop for the current journey.
+            Your position is used in the browser to measure the distance to your stop. It is sent to the BUSIFY server only
+            to look up nearby stops (not stored or logged); during a journey the server keeps just the latest distance.
           </p>
         </div>
       </div>
