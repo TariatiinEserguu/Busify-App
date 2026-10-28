@@ -1,0 +1,391 @@
+// BUSIFY database schema (SQLite via Prisma).
+// Change it with `npm run db:migrate:dev -w server` so a migration is recorded.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Users, roles and permissions
+// ---------------------------------------------------------------------------
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  /// PASSENGER | SUPPORT | ADMIN
+  name        String           @unique
+  label       String
+  description String
+  permissions RolePermission[]
+  users       User[]
+}
+
+model Permission {
+  id          Int              @id @default(autoincrement())
+  key         String           @unique
+  description String
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model User {
+  id                 Int        @id @default(autoincrement())
+  email              String     @unique
+  name               String
+  phone              String?
+  /// bcrypt hash — never selected for API responses
+  passwordHash       String
+  roleId             Int
+  role               Role       @relation(fields: [roleId], references: [id])
+  status             UserStatus @default(ACTIVE)
+  /// Set when an administrator issues a temporary password
+  mustChangePassword Boolean    @default(false)
+  /// Created by the demo seed; refused at login unless DEMO_MODE=true
+  isDemoAccount      Boolean    @default(false)
+  lastLoginAt        DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  settings         UserSettings?
+  sessions         Session[]
+  journeys         Journey[]
+  tickets          SupportTicket[]   @relation("TicketPassenger")
+  assignedTickets  SupportTicket[]   @relation("TicketAssignee")
+  escalatedTickets SupportTicket[]   @relation("TicketEscalatedBy")
+  responses        SupportResponse[]
+  ticketEvents     TicketEvent[]
+  auditLogs        AuditLog[]
+  notifications    Notification[]
+
+  @@index([roleId])
+  @@index([createdAt])
+}
+
+model Session {
+  /// SHA-256 hash of the random token stored in the httpOnly cookie
+  id         String   @id
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  lastUsedAt DateTime @default(now())
+  userAgent  String?
+  ipAddress  String?
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model UserSettings {
+  userId               Int      @id
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  alertRadiusM         Int      @default(200)
+  soundEnabled         Boolean  @default(true)
+  vibrationEnabled     Boolean  @default(true)
+  notificationsEnabled Boolean  @default(true)
+  keepScreenAwake      Boolean  @default(true)
+  updatedAt            DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Routes and stops
+// ---------------------------------------------------------------------------
+
+enum RouteStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+}
+
+model Route {
+  id             Int         @id @default(autoincrement())
+  number         String      @unique
+  name           String
+  description    String      @default("")
+  status         RouteStatus @default(ACTIVE)
+  /// Hex colour used for the line on the map and the route badge
+  color          String      @default("#1d4ed8")
+  /// Schedule: first and last departure ("HH:MM") and frequency in minutes
+  firstDeparture String?
+  lastDeparture  String?
+  headwayMinutes Int?
+  /// Sample data from the demo seed — not a real-world route
+  isDemo         Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  stops    RouteStop[]
+  journeys Journey[]
+  tickets  SupportTicket[]
+
+  @@index([status])
+}
+
+model Stop {
+  id          Int      @id @default(autoincrement())
+  code        String?  @unique
+  name        String
+  description String   @default("")
+  latitude    Float
+  longitude   Float
+  /// Sample data from the demo seed — coordinates are illustrative only
+  isDemo      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  routes   RouteStop[]
+  journeys Journey[]
+
+  @@index([latitude, longitude])
+}
+
+/// Ordered membership of a stop on a route
+model RouteStop {
+  id       Int   @id @default(autoincrement())
+  routeId  Int
+  stopId   Int
+  /// 1-based position along the route
+  position Int
+  route    Route @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  stop     Stop  @relation(fields: [stopId], references: [id], onDelete: Cascade)
+
+  @@unique([routeId, position])
+  @@unique([routeId, stopId])
+  @@index([stopId])
+}
+
+// ---------------------------------------------------------------------------
+// Journeys (a passenger's active alert session)
+// ---------------------------------------------------------------------------
+
+enum JourneyStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+model Journey {
+  id                Int           @id @default(autoincrement())
+  userId            Int
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routeId           Int?
+  route             Route?        @relation(fields: [routeId], references: [id], onDelete: SetNull)
+  destinationStopId Int?
+  destinationStop   Stop?         @relation(fields: [destinationStopId], references: [id], onDelete: SetNull)
+
+  // Snapshot taken when the journey starts, so history survives later edits
+  routeNumber     String
+  routeName       String
+  destinationName String
+  destinationLat  Float
+  destinationLng  Float
+
+  alertRadiusM      Int
+  status            JourneyStatus @default(ACTIVE)
+  startedAt         DateTime      @default(now())
+  pausedAt          DateTime?
+  endedAt           DateTime?
+  /// ARRIVED | CANCELLED_BY_USER | REPLACED | ROUTE_REMOVED | STOP_REMOVED
+  endReason         String?
+  alertTriggeredAt  DateTime?
+  alertDistanceM    Float?
+  alertCount        Int           @default(0)
+  /// Alert was reset near the stop; it re-arms after the passenger moves away
+  alertRearmPending Boolean       @default(false)
+  lastDistanceM     Float?
+  lastAccuracyM     Float?
+  lastPositionAt    DateTime?
+  /// True if the simulator supplied positions at any point
+  usedSimulation    Boolean       @default(false)
+  updatedAt         DateTime      @updatedAt
+
+  tickets SupportTicket[]
+
+  @@index([userId, status])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// ---------------------------------------------------------------------------
+// Customer support
+// ---------------------------------------------------------------------------
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum TicketCategory {
+  COMPLAINT
+  FEEDBACK
+  QUESTION
+  APP_PROBLEM
+  ROUTE_DATA
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TicketEventType {
+  CREATED
+  STATUS_CHANGED
+  PRIORITY_CHANGED
+  ASSIGNED
+  RESPONSE_ADDED
+  INTERNAL_NOTE
+  ESCALATED
+  REOPENED
+}
+
+model SupportTicket {
+  id               Int            @id @default(autoincrement())
+  userId           Int
+  user             User           @relation("TicketPassenger", fields: [userId], references: [id], onDelete: Cascade)
+  subject          String
+  description      String
+  category         TicketCategory
+  priority         TicketPriority @default(NORMAL)
+  status           TicketStatus   @default(OPEN)
+  routeId          Int?
+  route            Route?         @relation(fields: [routeId], references: [id], onDelete: SetNull)
+  journeyId        Int?
+  journey          Journey?       @relation(fields: [journeyId], references: [id], onDelete: SetNull)
+  assignedToId     Int?
+  assignedTo       User?          @relation("TicketAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  escalated        Boolean        @default(false)
+  escalatedAt      DateTime?
+  escalatedById    Int?
+  escalatedBy      User?          @relation("TicketEscalatedBy", fields: [escalatedById], references: [id], onDelete: SetNull)
+  escalationReason String?
+  resolvedAt       DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  responses SupportResponse[]
+  events    TicketEvent[]
+
+  @@index([status])
+  @@index([userId])
+  @@index([escalated])
+  @@index([createdAt])
+}
+
+model SupportResponse {
+  id         Int           @id @default(autoincrement())
+  ticketId   Int
+  ticket     SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId   Int
+  author     User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  message    String
+  /// Internal notes are visible to support staff only
+  isInternal Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+
+  @@index([ticketId])
+}
+
+/// Timeline of every action taken on a ticket
+model TicketEvent {
+  id         Int             @id @default(autoincrement())
+  ticketId   Int
+  ticket     SupportTicket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  actorId    Int?
+  actor      User?           @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  type       TicketEventType
+  fromStatus TicketStatus?
+  toStatus   TicketStatus?
+  note       String?
+  createdAt  DateTime        @default(now())
+
+  @@index([ticketId])
+}
+
+// ---------------------------------------------------------------------------
+// Operations: audit trail, error log, notifications, settings
+// ---------------------------------------------------------------------------
+
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  actorId    Int?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  /// e.g. route.create, user.role_change, ticket.escalate, auth.login
+  action     String
+  entityType String
+  entityId   String?
+  summary    String
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([action])
+}
+
+enum ErrorSource {
+  SERVER
+  CLIENT
+}
+
+model ErrorLog {
+  id         Int         @id @default(autoincrement())
+  source     ErrorSource
+  message    String
+  stack      String?
+  method     String?
+  path       String?
+  statusCode Int?
+  userId     Int?
+  userAgent  String?
+  context    Json?
+  createdAt  DateTime    @default(now())
+
+  @@index([createdAt])
+  @@index([source])
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String
+  /// In-app path to open, e.g. /desk/tickets/12
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, readAt])
+}
+
+model SystemSetting {
+  key         String   @id
+  /// JSON-encoded value
+  value       String
+  updatedById Int?
+  updatedAt   DateTime @updatedAt
+}
