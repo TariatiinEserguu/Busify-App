@@ -1,0 +1,810 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="1620" viewBox="0 0 2700 1620" font-family="DejaVu Sans, Inter, Segoe UI, sans-serif">
+<defs><filter id="shadow" x="-6%" y="-6%" width="115%" height="115%"><feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.13"/></filter></defs>
+<rect width="2700" height="1620" fill="#ffffff"/>
+<text x="1350.0" y="86" text-anchor="middle" font-size="31" font-weight="700" fill="#0f172a">BUSIFY — Өгөгдлийн сангийн ER диаграм (ERD)</text>
+<text x="1350.0" y="116" text-anchor="middle" font-size="14.5" fill="#475569">Автобусны буудал дээр сэрээх систем · Захиалагч: 6-р баг · Хөгжүүлэгч: 2-р баг</text>
+<text x="1350.0" y="139" text-anchor="middle" font-size="12" fill="#64748b">Эх сурвалж: server/prisma/schema.prisma (SQLite, Prisma ORM) · 17 хүснэгт · 23 холбоо</text>
+<line x1="930.0" y1="158" x2="1770.0" y2="158" stroke="#cbd5e1" stroke-width="1.2"/>
+<rect x="60" y="573" width="7" height="14" rx="2" fill="#1d4ed8"/>
+<text x="74" y="586" font-size="12.5" font-weight="700" fill="#1d4ed8" letter-spacing="0.4">ХЭРЭГЛЭГЧ, ДҮР, ЭРХИЙН УДИРДЛАГА</text>
+<rect x="700" y="215" width="7" height="14" rx="2" fill="#1d4ed8"/>
+<text x="714" y="228" font-size="12.5" font-weight="700" fill="#1d4ed8" letter-spacing="0.4">СЕСС БА ТОХИРГОО</text>
+<rect x="1060" y="523" width="7" height="14" rx="2" fill="#b45309"/>
+<text x="1074" y="536" font-size="12.5" font-weight="700" fill="#b45309" letter-spacing="0.4">АЯЛАЛ БА СЭРЭМЖЛҮҮЛЭГ</text>
+<rect x="1420" y="461" width="7" height="14" rx="2" fill="#15803d"/>
+<text x="1434" y="474" font-size="12.5" font-weight="700" fill="#15803d" letter-spacing="0.4">МАРШРУТ БА БУУДАЛ</text>
+<rect x="2070" y="439" width="7" height="14" rx="2" fill="#7e22ce"/>
+<text x="2084" y="452" font-size="12.5" font-weight="700" fill="#7e22ce" letter-spacing="0.4">ХАРИЛЦАГЧИЙН ҮЙЛЧИЛГЭЭ</text>
+<rect x="60" y="1239" width="7" height="14" rx="2" fill="#475569"/>
+<text x="74" y="1252" font-size="12.5" font-weight="700" fill="#475569" letter-spacing="0.4">ЛОГ, МЭДЭГДЭЛ, СИСТЕМИЙН ТОХИРГОО</text>
+<path d="M 337.0 671.5 L 336.0 671.5 Q 335.0 671.5 335.0 672.5 L 335.0 732.5 Q 335.0 741.5 344.0 741.5 L 355.0 741.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="330.0" y1="665.0" x2="330.0" y2="678.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 355.0 741.5 L 368.0 735.0 M 355.0 741.5 L 368.0 741.5 M 355.0 741.5 L 368.0 748.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 337.0 851.5 L 342.5 851.5 Q 348.0 851.5 348.0 846.0 L 348.0 764.0 Q 348.0 760.5 351.5 760.5 L 355.0 760.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="330.0" y1="845.0" x2="330.0" y2="858.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 355.0 760.5 L 368.0 754.0 M 355.0 760.5 L 368.0 760.5 M 355.0 760.5 L 368.0 767.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 337.0 671.5 L 651.0 671.5 Q 660.0 671.5 660.0 680.5 L 660.0 737.5 Q 660.0 746.5 669.0 746.5 L 687.0 746.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="330.0" y1="665.0" x2="330.0" y2="678.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 687.0 746.5 L 700.0 740.0 M 687.0 746.5 L 700.0 746.5 M 687.0 746.5 L 700.0 753.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="452" y="663" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">эрх олгоно</text>
+<path d="M 760.0 581.0 L 760.0 509.0 Q 760.0 500.0 751.0 500.0 L 675.0 500.0 Q 666.0 500.0 666.0 491.0 L 666.0 329.5 Q 666.0 320.5 675.0 320.5 L 687.0 320.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="753.5" y1="588.0" x2="766.5" y2="588.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 687.0 320.5 L 700.0 314.0 M 687.0 320.5 L 700.0 320.5 M 687.0 320.5 L 700.0 327.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="690" y="492" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">нэвтэрнэ</text>
+<path d="M 860.0 581.0 L 860.0 529.0 Q 860.0 520.0 869.0 520.0 L 987.0 520.0 Q 996.0 520.0 996.0 511.0 L 996.0 310.5 Q 996.0 301.5 1005.0 301.5 L 1017.0 301.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="853.5" y1="588.0" x2="866.5" y2="588.0" stroke="#5b6b80" stroke-width="1.6"/>
+<line x1="1023.0" y1="295.0" x2="1023.0" y2="308.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="1013.0" cy="301.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="872" y="512" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">тохируулна</text>
+<path d="M 977.0 651.5 L 1003.0 651.5 Q 1012.0 651.5 1012.0 642.5 L 1012.0 639.5 Q 1012.0 630.5 1021.0 630.5 L 1047.0 630.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1047.0 630.5 L 1060.0 624.0 M 1047.0 630.5 L 1060.0 630.5 M 1047.0 630.5 L 1060.0 637.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="966" y="616" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">аялал эхлүүлнэ</text>
+<path d="M 1697.0 551.5 L 1705.5 551.5 Q 1714.0 551.5 1714.0 560.0 L 1714.0 701.5 Q 1714.0 710.5 1723.0 710.5 L 1737.0 710.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1690.0" y1="545.0" x2="1690.0" y2="558.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1737.0 710.5 L 1750.0 704.0 M 1737.0 710.5 L 1750.0 710.5 M 1737.0 710.5 L 1750.0 717.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1697.0 881.5 L 1713.0 881.5 Q 1722.0 881.5 1722.0 872.5 L 1722.0 737.0 Q 1722.0 729.5 1729.5 729.5 L 1737.0 729.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1690.0" y1="875.0" x2="1690.0" y2="888.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1737.0 729.5 L 1750.0 723.0 M 1737.0 729.5 L 1750.0 729.5 M 1737.0 729.5 L 1750.0 736.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1394.0 551.5 L 1379.0 551.5 Q 1370.0 551.5 1370.0 560.5 L 1370.0 640.5 Q 1370.0 649.5 1361.0 649.5 L 1331.0 649.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1408.0" y1="545.0" x2="1408.0" y2="558.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="1399.0" cy="551.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1331.0 649.5 L 1318.0 643.0 M 1331.0 649.5 L 1318.0 649.5 M 1331.0 649.5 L 1318.0 656.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1330" y="545" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">маршрут</text>
+<path d="M 1394.0 881.5 L 1361.0 881.5 Q 1352.0 881.5 1352.0 872.5 L 1352.0 677.5 Q 1352.0 668.5 1343.0 668.5 L 1331.0 668.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1408.0" y1="875.0" x2="1408.0" y2="888.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="1399.0" cy="881.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 1331.0 668.5 L 1318.0 662.0 M 1331.0 668.5 L 1318.0 668.5 M 1331.0 668.5 L 1318.0 675.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1324" y="875" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">буух буудал</text>
+<path d="M 977.0 651.5 L 1041.0 651.5 Q 1050.0 651.5 1050.0 660.5 L 1050.0 1085.0 Q 1050.0 1094.0 1059.0 1094.0 L 2017.0 1094.0 Q 2026.0 1094.0 2026.0 1085.0 L 2026.0 559.5 Q 2026.0 550.5 2035.0 550.5 L 2047.0 550.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2047.0 550.5 L 2060.0 544.0 M 2047.0 550.5 L 2060.0 550.5 M 2047.0 550.5 L 2060.0 557.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1468" y="1089" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">гомдол гаргана</text>
+<path d="M 984.0 651.5 L 1026.0 651.5 Q 1035.0 651.5 1035.0 660.5 L 1035.0 1101.0 Q 1035.0 1110.0 1044.0 1110.0 L 2027.0 1110.0 Q 2036.0 1110.0 2036.0 1101.0 L 2036.0 708.0 Q 2036.0 702.5 2041.5 702.5 L 2047.0 702.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="979.0" cy="651.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2047.0 702.5 L 2060.0 696.0 M 2047.0 702.5 L 2060.0 702.5 M 2047.0 702.5 L 2060.0 709.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1660" y="1105" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">хариуцна</text>
+<path d="M 984.0 651.5 L 1011.0 651.5 Q 1020.0 651.5 1020.0 660.5 L 1020.0 1117.0 Q 1020.0 1126.0 1029.0 1126.0 L 2037.0 1126.0 Q 2046.0 1126.0 2046.0 1117.0 L 2046.0 759.5 L 2047.0 759.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="979.0" cy="651.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2047.0 759.5 L 2060.0 753.0 M 2047.0 759.5 L 2060.0 759.5 M 2047.0 759.5 L 2060.0 766.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1826" y="1121" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">админд дамжуулна</text>
+<path d="M 977.0 651.5 L 996.0 651.5 Q 1005.0 651.5 1005.0 660.5 L 1005.0 1133.0 Q 1005.0 1142.0 1014.0 1142.0 L 2336.0 1142.0 Q 2345.0 1142.0 2345.0 1133.0 L 2345.0 458.5 Q 2345.0 449.5 2354.0 449.5 L 2387.0 449.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2387.0 449.5 L 2400.0 443.0 M 2387.0 449.5 L 2400.0 449.5 M 2387.0 449.5 L 2400.0 456.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="2040" y="1137" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">хариу бичнэ</text>
+<path d="M 984.0 651.5 L 987.0 651.5 Q 990.0 651.5 990.0 654.5 L 990.0 1149.0 Q 990.0 1158.0 999.0 1158.0 L 2351.0 1158.0 Q 2360.0 1158.0 2360.0 1149.0 L 2360.0 698.5 Q 2360.0 689.5 2369.0 689.5 L 2387.0 689.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="970.0" y1="645.0" x2="970.0" y2="658.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="979.0" cy="651.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2387.0 689.5 L 2400.0 683.0 M 2387.0 689.5 L 2400.0 689.5 M 2387.0 689.5 L 2400.0 696.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="2180" y="1153" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">үйлдэл хийнэ</text>
+<path d="M 1200.0 1092.0 L 1200.0 1085.0 Q 1200.0 1078.0 1207.0 1078.0 L 2007.0 1078.0 Q 2016.0 1078.0 2016.0 1069.0 L 2016.0 692.5 Q 2016.0 683.5 2025.0 683.5 L 2047.0 683.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1193.5" y1="1078.0" x2="1206.5" y2="1078.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="1200.0" cy="1087.0" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2047.0 683.5 L 2060.0 677.0 M 2047.0 683.5 L 2060.0 683.5 M 2047.0 683.5 L 2060.0 690.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1250" y="1073" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">холбогдох аялал</text>
+<path d="M 1704.0 551.5 L 1721.0 551.5 Q 1730.0 551.5 1730.0 542.5 L 1730.0 469.0 Q 1730.0 460.0 1739.0 460.0 L 2047.0 460.0 Q 2056.0 460.0 2056.0 469.0 L 2056.0 660.0 Q 2056.0 664.5 2051.5 664.5 L 2047.0 664.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="1690.0" y1="545.0" x2="1690.0" y2="558.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="1699.0" cy="551.5" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2047.0 664.5 L 2060.0 658.0 M 2047.0 664.5 L 2060.0 664.5 M 2047.0 664.5 L 2060.0 671.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="1770" y="452" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">холбогдох маршрут</text>
+<path d="M 2337.0 531.5 L 2361.0 531.5 Q 2370.0 531.5 2370.0 522.5 L 2370.0 439.0 Q 2370.0 430.5 2378.5 430.5 L 2387.0 430.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="2330.0" y1="525.0" x2="2330.0" y2="538.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2387.0 430.5 L 2400.0 424.0 M 2387.0 430.5 L 2400.0 430.5 M 2387.0 430.5 L 2400.0 437.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="2330" y="470" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">хариу авна</text>
+<path d="M 2337.0 531.5 L 2371.0 531.5 Q 2380.0 531.5 2380.0 540.5 L 2380.0 667.0 Q 2380.0 670.5 2383.5 670.5 L 2387.0 670.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="2330.0" y1="525.0" x2="2330.0" y2="538.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 2387.0 670.5 L 2400.0 664.0 M 2387.0 670.5 L 2400.0 670.5 M 2387.0 670.5 L 2400.0 677.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="2330" y="612" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">түүх үүснэ</text>
+<path d="M 740.0 897.0 L 740.0 1171.0 Q 740.0 1180.0 731.0 1180.0 L 33.0 1180.0 Q 24.0 1180.0 24.0 1189.0 L 24.0 1331.5 Q 24.0 1340.5 33.0 1340.5 L 47.0 1340.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="733.5" y1="890.0" x2="746.5" y2="890.0" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 47.0 1340.5 L 60.0 1334.0 M 47.0 1340.5 L 60.0 1340.5 M 47.0 1340.5 L 60.0 1347.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="270" y="1175" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">мэдэгдэл хүлээн авна</text>
+<path d="M 790.0 904.0 L 790.0 1185.0 Q 790.0 1194.0 781.0 1194.0 L 364.0 1194.0 Q 355.0 1194.0 355.0 1203.0 L 355.0 1331.5 Q 355.0 1340.5 364.0 1340.5 L 377.0 1340.5" fill="none" stroke="#5b6b80" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="783.5" y1="890.0" x2="796.5" y2="890.0" stroke="#5b6b80" stroke-width="1.6"/>
+<circle cx="790.0" cy="899.0" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/>
+<path d="M 377.0 1340.5 L 390.0 1334.0 M 377.0 1340.5 L 390.0 1340.5 M 377.0 1340.5 L 390.0 1347.0" fill="none" stroke="#5b6b80" stroke-width="1.6"/>
+<text x="470" y="1189" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">үйлдэл бүртгэгдэнэ</text>
+<path d="M 840.0 904.0 L 840.0 1199.0 Q 840.0 1208.0 831.0 1208.0 L 695.0 1208.0 Q 686.0 1208.0 686.0 1217.0 L 686.0 1445.5 Q 686.0 1454.5 695.0 1454.5 L 707.0 1454.5" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5" stroke-linejoin="round"/>
+<line x1="833.5" y1="890.0" x2="846.5" y2="890.0" stroke="#94a3b8" stroke-width="1.6"/>
+<circle cx="840.0" cy="899.0" r="4.2" fill="#ffffff" stroke="#94a3b8" stroke-width="1.6"/>
+<path d="M 707.0 1454.5 L 720.0 1448.0 M 707.0 1454.5 L 720.0 1454.5 M 707.0 1454.5 L 720.0 1461.0" fill="none" stroke="#94a3b8" stroke-width="1.6"/>
+<text x="690" y="1203" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">логик холбоо</text>
+<path d="M 890.0 904.0 L 890.0 1213.0 Q 890.0 1222.0 899.0 1222.0 L 1007.0 1222.0 Q 1016.0 1222.0 1016.0 1231.0 L 1016.0 1350.5 Q 1016.0 1359.5 1025.0 1359.5 L 1037.0 1359.5" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="7 5" stroke-linejoin="round"/>
+<line x1="883.5" y1="890.0" x2="896.5" y2="890.0" stroke="#94a3b8" stroke-width="1.6"/>
+<circle cx="890.0" cy="899.0" r="4.2" fill="#ffffff" stroke="#94a3b8" stroke-width="1.6"/>
+<path d="M 1037.0 1359.5 L 1050.0 1353.0 M 1037.0 1359.5 L 1050.0 1359.5 M 1037.0 1359.5 L 1050.0 1366.0" fill="none" stroke="#94a3b8" stroke-width="1.6"/>
+<text x="900" y="1217" font-size="10" fill="#334155" style="paint-order:stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">логик холбоо</text>
+<g class="ent">
+<rect x="60" y="620" width="258" height="126" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 60 662 L 60 629 Q 60 620 69 620 L 309 620 Q 318 620 318 629 L 318 662 Z" fill="#1d4ed8"/>
+<text x="189.0" y="639" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Role</text>
+<text x="189.0" y="654" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Дүр (эрхийн бүлэг)</text>
+<text x="68" y="675.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="106" y="675.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="310" y="675.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="61.5" y="681" width="255" height="19" fill="#f8fafc"/>
+<text x="68" y="694.5" fill="#15803d" font-size="8" font-weight="700">UQ</text>
+<text x="106" y="694.5" fill="#0f172a" font-size="10.5" font-weight="400">name</text>
+<text x="310" y="694.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="681" x2="316.5" y2="681" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="106" y="713.5" fill="#0f172a" font-size="10.5" font-weight="400">label</text>
+<text x="310" y="713.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="700" x2="316.5" y2="700" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="61.5" y="719" width="255" height="19" fill="#f8fafc"/>
+<text x="106" y="732.5" fill="#0f172a" font-size="10.5" font-weight="400">description</text>
+<text x="310" y="732.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="719" x2="316.5" y2="719" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="60" y="800" width="258" height="107" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 60 842 L 60 809 Q 60 800 69 800 L 309 800 Q 318 800 318 809 L 318 842 Z" fill="#1d4ed8"/>
+<text x="189.0" y="819" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Permission</text>
+<text x="189.0" y="834" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Эрх (зөвшөөрөл)</text>
+<text x="68" y="855.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="106" y="855.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="310" y="855.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="61.5" y="861" width="255" height="19" fill="#f8fafc"/>
+<text x="68" y="874.5" fill="#15803d" font-size="8" font-weight="700">UQ</text>
+<text x="106" y="874.5" fill="#0f172a" font-size="10.5" font-weight="400">key</text>
+<text x="310" y="874.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="861" x2="316.5" y2="861" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="106" y="893.5" fill="#0f172a" font-size="10.5" font-weight="400">description</text>
+<text x="310" y="893.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="880" x2="316.5" y2="880" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="368" y="690" width="258" height="88" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 368 732 L 368 699 Q 368 690 377 690 L 617 690 Q 626 690 626 699 L 626 732 Z" fill="#1d4ed8"/>
+<text x="497.0" y="709" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">RolePermission</text>
+<text x="497.0" y="724" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Дүр–Эрхийн холбоо</text>
+<text x="376" y="745.5" fill="#b45309" font-size="8" font-weight="700">PK FK</text>
+<text x="414" y="745.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">roleId</text>
+<text x="618" y="745.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="369.5" y="751" width="255" height="19" fill="#f8fafc"/>
+<text x="376" y="764.5" fill="#b45309" font-size="8" font-weight="700">PK FK</text>
+<text x="414" y="764.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">permissionId</text>
+<text x="618" y="764.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="369.5" y1="751" x2="624.5" y2="751" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="700" y="600" width="258" height="278" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 700 642 L 700 609 Q 700 600 709 600 L 949 600 Q 958 600 958 609 L 958 642 Z" fill="#1d4ed8"/>
+<text x="829.0" y="619" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">User</text>
+<text x="829.0" y="634" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Хэрэглэгч</text>
+<text x="708" y="655.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="746" y="655.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="950" y="655.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="701.5" y="661" width="255" height="19" fill="#f8fafc"/>
+<text x="708" y="674.5" fill="#15803d" font-size="8" font-weight="700">UQ</text>
+<text x="746" y="674.5" fill="#0f172a" font-size="10.5" font-weight="400">email</text>
+<text x="950" y="674.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="701.5" y1="661" x2="956.5" y2="661" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="693.5" fill="#0f172a" font-size="10.5" font-weight="400">name</text>
+<text x="950" y="693.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="701.5" y1="680" x2="956.5" y2="680" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="699" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="712.5" fill="#0f172a" font-size="10.5" font-weight="400">phone</text>
+<text x="950" y="712.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="701.5" y1="699" x2="956.5" y2="699" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="731.5" fill="#0f172a" font-size="10.5" font-weight="400">passwordHash</text>
+<text x="950" y="731.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="701.5" y1="718" x2="956.5" y2="718" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="737" width="255" height="19" fill="#f8fafc"/>
+<text x="708" y="750.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="746" y="750.5" fill="#0f172a" font-size="10.5" font-weight="400">roleId</text>
+<text x="950" y="750.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="701.5" y1="737" x2="956.5" y2="737" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="769.5" fill="#0f172a" font-size="10.5" font-weight="400">status</text>
+<text x="950" y="769.5" text-anchor="end" fill="#64748b" font-size="8.5">UserStatus</text>
+<line x1="701.5" y1="756" x2="956.5" y2="756" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="775" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="788.5" fill="#0f172a" font-size="10.5" font-weight="400">mustChangePassword</text>
+<text x="950" y="788.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="701.5" y1="775" x2="956.5" y2="775" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="807.5" fill="#0f172a" font-size="10.5" font-weight="400">isDemoAccount</text>
+<text x="950" y="807.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="701.5" y1="794" x2="956.5" y2="794" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="813" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="826.5" fill="#0f172a" font-size="10.5" font-weight="400">lastLoginAt</text>
+<text x="950" y="826.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="701.5" y1="813" x2="956.5" y2="813" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="845.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="950" y="845.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="701.5" y1="832" x2="956.5" y2="832" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="851" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="864.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="950" y="864.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="701.5" y1="851" x2="956.5" y2="851" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="700" y="250" width="258" height="183" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 700 292 L 700 259 Q 700 250 709 250 L 949 250 Q 958 250 958 259 L 958 292 Z" fill="#1d4ed8"/>
+<text x="829.0" y="269" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Session</text>
+<text x="829.0" y="284" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Нэвтрэлтийн сесс</text>
+<text x="708" y="305.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="746" y="305.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="950" y="305.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<rect x="701.5" y="311" width="255" height="19" fill="#f8fafc"/>
+<text x="708" y="324.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="746" y="324.5" fill="#0f172a" font-size="10.5" font-weight="400">userId</text>
+<text x="950" y="324.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="701.5" y1="311" x2="956.5" y2="311" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="343.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="950" y="343.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="701.5" y1="330" x2="956.5" y2="330" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="349" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="362.5" fill="#0f172a" font-size="10.5" font-weight="400">expiresAt</text>
+<text x="950" y="362.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="701.5" y1="349" x2="956.5" y2="349" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="381.5" fill="#0f172a" font-size="10.5" font-weight="400">lastUsedAt</text>
+<text x="950" y="381.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="701.5" y1="368" x2="956.5" y2="368" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="701.5" y="387" width="255" height="19" fill="#f8fafc"/>
+<text x="746" y="400.5" fill="#0f172a" font-size="10.5" font-weight="400">userAgent</text>
+<text x="950" y="400.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="701.5" y1="387" x2="956.5" y2="387" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="746" y="419.5" fill="#0f172a" font-size="10.5" font-weight="400">ipAddress</text>
+<text x="950" y="419.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="701.5" y1="406" x2="956.5" y2="406" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1030" y="250" width="258" height="183" rx="9" ry="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1030 292 L 1030 259 Q 1030 250 1039 250 L 1279 250 Q 1288 250 1288 259 L 1288 292 Z" fill="#1d4ed8"/>
+<text x="1159.0" y="269" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">UserSettings</text>
+<text x="1159.0" y="284" text-anchor="middle" fill="#c7d7fe" font-size="9.5">Хэрэглэгчийн тохиргоо</text>
+<text x="1038" y="305.5" fill="#b45309" font-size="8" font-weight="700">PK FK</text>
+<text x="1076" y="305.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">userId</text>
+<text x="1280" y="305.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="1031.5" y="311" width="255" height="19" fill="#f8fafc"/>
+<text x="1076" y="324.5" fill="#0f172a" font-size="10.5" font-weight="400">alertRadiusM</text>
+<text x="1280" y="324.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1031.5" y1="311" x2="1286.5" y2="311" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1076" y="343.5" fill="#0f172a" font-size="10.5" font-weight="400">soundEnabled</text>
+<text x="1280" y="343.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1031.5" y1="330" x2="1286.5" y2="330" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1031.5" y="349" width="255" height="19" fill="#f8fafc"/>
+<text x="1076" y="362.5" fill="#0f172a" font-size="10.5" font-weight="400">vibrationEnabled</text>
+<text x="1280" y="362.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1031.5" y1="349" x2="1286.5" y2="349" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1076" y="381.5" fill="#0f172a" font-size="10.5" font-weight="400">notificationsEnabled</text>
+<text x="1280" y="381.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1031.5" y1="368" x2="1286.5" y2="368" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1031.5" y="387" width="255" height="19" fill="#f8fafc"/>
+<text x="1076" y="400.5" fill="#0f172a" font-size="10.5" font-weight="400">keepScreenAwake</text>
+<text x="1280" y="400.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1031.5" y1="387" x2="1286.5" y2="387" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1076" y="419.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="1280" y="419.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1031.5" y1="406" x2="1286.5" y2="406" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1060" y="560" width="258" height="506" rx="9" ry="9" fill="#ffffff" stroke="#b45309" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1060 602 L 1060 569 Q 1060 560 1069 560 L 1309 560 Q 1318 560 1318 569 L 1318 602 Z" fill="#b45309"/>
+<text x="1189.0" y="579" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Journey</text>
+<text x="1189.0" y="594" text-anchor="middle" fill="#fde6bd" font-size="9.5">Аялал — идэвхтэй сэрэмжлүүлэг</text>
+<text x="1068" y="615.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="1106" y="615.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="1310" y="615.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="1061.5" y="621" width="255" height="19" fill="#f8fafc"/>
+<text x="1068" y="634.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="1106" y="634.5" fill="#0f172a" font-size="10.5" font-weight="400">userId</text>
+<text x="1310" y="634.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1061.5" y1="621" x2="1316.5" y2="621" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1068" y="653.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="1106" y="653.5" fill="#0f172a" font-size="10.5" font-weight="400">routeId</text>
+<text x="1310" y="653.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="1061.5" y1="640" x2="1316.5" y2="640" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="659" width="255" height="19" fill="#f8fafc"/>
+<text x="1068" y="672.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="1106" y="672.5" fill="#0f172a" font-size="10.5" font-weight="400">destinationStopId</text>
+<text x="1310" y="672.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="1061.5" y1="659" x2="1316.5" y2="659" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="691.5" fill="#0f172a" font-size="10.5" font-weight="400">routeNumber</text>
+<text x="1310" y="691.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1061.5" y1="678" x2="1316.5" y2="678" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="697" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="710.5" fill="#0f172a" font-size="10.5" font-weight="400">routeName</text>
+<text x="1310" y="710.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1061.5" y1="697" x2="1316.5" y2="697" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="729.5" fill="#0f172a" font-size="10.5" font-weight="400">destinationName</text>
+<text x="1310" y="729.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1061.5" y1="716" x2="1316.5" y2="716" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="735" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="748.5" fill="#0f172a" font-size="10.5" font-weight="400">destinationLat</text>
+<text x="1310" y="748.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL</text>
+<line x1="1061.5" y1="735" x2="1316.5" y2="735" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="767.5" fill="#0f172a" font-size="10.5" font-weight="400">destinationLng</text>
+<text x="1310" y="767.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL</text>
+<line x1="1061.5" y1="754" x2="1316.5" y2="754" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="773" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="786.5" fill="#0f172a" font-size="10.5" font-weight="400">alertRadiusM</text>
+<text x="1310" y="786.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1061.5" y1="773" x2="1316.5" y2="773" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="805.5" fill="#0f172a" font-size="10.5" font-weight="400">status</text>
+<text x="1310" y="805.5" text-anchor="end" fill="#64748b" font-size="8.5">JourneyStatus</text>
+<line x1="1061.5" y1="792" x2="1316.5" y2="792" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="811" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="824.5" fill="#0f172a" font-size="10.5" font-weight="400">startedAt</text>
+<text x="1310" y="824.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1061.5" y1="811" x2="1316.5" y2="811" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="843.5" fill="#0f172a" font-size="10.5" font-weight="400">pausedAt</text>
+<text x="1310" y="843.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="1061.5" y1="830" x2="1316.5" y2="830" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="849" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="862.5" fill="#0f172a" font-size="10.5" font-weight="400">endedAt</text>
+<text x="1310" y="862.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="1061.5" y1="849" x2="1316.5" y2="849" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="881.5" fill="#0f172a" font-size="10.5" font-weight="400">endReason</text>
+<text x="1310" y="881.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="1061.5" y1="868" x2="1316.5" y2="868" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="887" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="900.5" fill="#0f172a" font-size="10.5" font-weight="400">alertTriggeredAt</text>
+<text x="1310" y="900.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="1061.5" y1="887" x2="1316.5" y2="887" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="919.5" fill="#0f172a" font-size="10.5" font-weight="400">alertDistanceM</text>
+<text x="1310" y="919.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL ?</text>
+<line x1="1061.5" y1="906" x2="1316.5" y2="906" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="925" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="938.5" fill="#0f172a" font-size="10.5" font-weight="400">alertCount</text>
+<text x="1310" y="938.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1061.5" y1="925" x2="1316.5" y2="925" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="957.5" fill="#0f172a" font-size="10.5" font-weight="400">alertRearmPending</text>
+<text x="1310" y="957.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1061.5" y1="944" x2="1316.5" y2="944" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="963" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="976.5" fill="#0f172a" font-size="10.5" font-weight="400">lastDistanceM</text>
+<text x="1310" y="976.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL ?</text>
+<line x1="1061.5" y1="963" x2="1316.5" y2="963" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="995.5" fill="#0f172a" font-size="10.5" font-weight="400">lastAccuracyM</text>
+<text x="1310" y="995.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL ?</text>
+<line x1="1061.5" y1="982" x2="1316.5" y2="982" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="1001" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="1014.5" fill="#0f172a" font-size="10.5" font-weight="400">lastPositionAt</text>
+<text x="1310" y="1014.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="1061.5" y1="1001" x2="1316.5" y2="1001" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1106" y="1033.5" fill="#0f172a" font-size="10.5" font-weight="400">usedSimulation</text>
+<text x="1310" y="1033.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1061.5" y1="1020" x2="1316.5" y2="1020" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1061.5" y="1039" width="255" height="19" fill="#f8fafc"/>
+<text x="1106" y="1052.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="1310" y="1052.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1061.5" y1="1039" x2="1316.5" y2="1039" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1420" y="500" width="258" height="278" rx="9" ry="9" fill="#ffffff" stroke="#15803d" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1420 542 L 1420 509 Q 1420 500 1429 500 L 1669 500 Q 1678 500 1678 509 L 1678 542 Z" fill="#15803d"/>
+<text x="1549.0" y="519" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Route</text>
+<text x="1549.0" y="534" text-anchor="middle" fill="#c9f0d6" font-size="9.5">Маршрут</text>
+<text x="1428" y="555.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="1466" y="555.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="1670" y="555.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="1421.5" y="561" width="255" height="19" fill="#f8fafc"/>
+<text x="1428" y="574.5" fill="#15803d" font-size="8" font-weight="700">UQ</text>
+<text x="1466" y="574.5" fill="#0f172a" font-size="10.5" font-weight="400">number</text>
+<text x="1670" y="574.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="561" x2="1676.5" y2="561" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="593.5" fill="#0f172a" font-size="10.5" font-weight="400">name</text>
+<text x="1670" y="593.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="580" x2="1676.5" y2="580" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="599" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="612.5" fill="#0f172a" font-size="10.5" font-weight="400">description</text>
+<text x="1670" y="612.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="599" x2="1676.5" y2="599" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="631.5" fill="#0f172a" font-size="10.5" font-weight="400">status</text>
+<text x="1670" y="631.5" text-anchor="end" fill="#64748b" font-size="8.5">RouteStatus</text>
+<line x1="1421.5" y1="618" x2="1676.5" y2="618" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="637" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="650.5" fill="#0f172a" font-size="10.5" font-weight="400">color</text>
+<text x="1670" y="650.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="637" x2="1676.5" y2="637" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="669.5" fill="#0f172a" font-size="10.5" font-weight="400">firstDeparture</text>
+<text x="1670" y="669.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="1421.5" y1="656" x2="1676.5" y2="656" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="675" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="688.5" fill="#0f172a" font-size="10.5" font-weight="400">lastDeparture</text>
+<text x="1670" y="688.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="1421.5" y1="675" x2="1676.5" y2="675" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="707.5" fill="#0f172a" font-size="10.5" font-weight="400">headwayMinutes</text>
+<text x="1670" y="707.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="1421.5" y1="694" x2="1676.5" y2="694" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="713" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="726.5" fill="#0f172a" font-size="10.5" font-weight="400">isDemo</text>
+<text x="1670" y="726.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1421.5" y1="713" x2="1676.5" y2="713" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="745.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="1670" y="745.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1421.5" y1="732" x2="1676.5" y2="732" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="751" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="764.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="1670" y="764.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1421.5" y1="751" x2="1676.5" y2="751" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1420" y="830" width="258" height="221" rx="9" ry="9" fill="#ffffff" stroke="#15803d" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1420 872 L 1420 839 Q 1420 830 1429 830 L 1669 830 Q 1678 830 1678 839 L 1678 872 Z" fill="#15803d"/>
+<text x="1549.0" y="849" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Stop</text>
+<text x="1549.0" y="864" text-anchor="middle" fill="#c9f0d6" font-size="9.5">Буудал</text>
+<text x="1428" y="885.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="1466" y="885.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="1670" y="885.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="1421.5" y="891" width="255" height="19" fill="#f8fafc"/>
+<text x="1428" y="904.5" fill="#15803d" font-size="8" font-weight="700">UQ</text>
+<text x="1466" y="904.5" fill="#0f172a" font-size="10.5" font-weight="400">code</text>
+<text x="1670" y="904.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="1421.5" y1="891" x2="1676.5" y2="891" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="923.5" fill="#0f172a" font-size="10.5" font-weight="400">name</text>
+<text x="1670" y="923.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="910" x2="1676.5" y2="910" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="929" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="942.5" fill="#0f172a" font-size="10.5" font-weight="400">description</text>
+<text x="1670" y="942.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1421.5" y1="929" x2="1676.5" y2="929" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="961.5" fill="#0f172a" font-size="10.5" font-weight="400">latitude</text>
+<text x="1670" y="961.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL</text>
+<line x1="1421.5" y1="948" x2="1676.5" y2="948" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="967" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="980.5" fill="#0f172a" font-size="10.5" font-weight="400">longitude</text>
+<text x="1670" y="980.5" text-anchor="end" fill="#64748b" font-size="8.5">REAL</text>
+<line x1="1421.5" y1="967" x2="1676.5" y2="967" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="999.5" fill="#0f172a" font-size="10.5" font-weight="400">isDemo</text>
+<text x="1670" y="999.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="1421.5" y1="986" x2="1676.5" y2="986" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1421.5" y="1005" width="255" height="19" fill="#f8fafc"/>
+<text x="1466" y="1018.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="1670" y="1018.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1421.5" y1="1005" x2="1676.5" y2="1005" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1466" y="1037.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="1670" y="1037.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1421.5" y1="1024" x2="1676.5" y2="1024" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1750" y="640" width="258" height="126" rx="9" ry="9" fill="#ffffff" stroke="#15803d" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1750 682 L 1750 649 Q 1750 640 1759 640 L 1999 640 Q 2008 640 2008 649 L 2008 682 Z" fill="#15803d"/>
+<text x="1879.0" y="659" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">RouteStop</text>
+<text x="1879.0" y="674" text-anchor="middle" fill="#c9f0d6" font-size="9.5">Маршрут дахь буудлын дараалал</text>
+<text x="1758" y="695.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="1796" y="695.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="2000" y="695.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="1751.5" y="701" width="255" height="19" fill="#f8fafc"/>
+<text x="1758" y="714.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="1796" y="714.5" fill="#0f172a" font-size="10.5" font-weight="400">routeId</text>
+<text x="2000" y="714.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1751.5" y1="701" x2="2006.5" y2="701" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1758" y="733.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="1796" y="733.5" fill="#0f172a" font-size="10.5" font-weight="400">stopId</text>
+<text x="2000" y="733.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1751.5" y1="720" x2="2006.5" y2="720" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1751.5" y="739" width="255" height="19" fill="#f8fafc"/>
+<text x="1796" y="752.5" fill="#0f172a" font-size="10.5" font-weight="400">position</text>
+<text x="2000" y="752.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="1751.5" y1="739" x2="2006.5" y2="739" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="2060" y="480" width="258" height="373" rx="9" ry="9" fill="#ffffff" stroke="#7e22ce" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 2060 522 L 2060 489 Q 2060 480 2069 480 L 2309 480 Q 2318 480 2318 489 L 2318 522 Z" fill="#7e22ce"/>
+<text x="2189.0" y="499" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">SupportTicket</text>
+<text x="2189.0" y="514" text-anchor="middle" fill="#e9d2fb" font-size="9.5">Гомдол, санал хүсэлт</text>
+<text x="2068" y="535.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="2106" y="535.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="2310" y="535.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="2061.5" y="541" width="255" height="19" fill="#f8fafc"/>
+<text x="2068" y="554.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2106" y="554.5" fill="#0f172a" font-size="10.5" font-weight="400">userId</text>
+<text x="2310" y="554.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="2061.5" y1="541" x2="2316.5" y2="541" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="573.5" fill="#0f172a" font-size="10.5" font-weight="400">subject</text>
+<text x="2310" y="573.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="2061.5" y1="560" x2="2316.5" y2="560" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="579" width="255" height="19" fill="#f8fafc"/>
+<text x="2106" y="592.5" fill="#0f172a" font-size="10.5" font-weight="400">description</text>
+<text x="2310" y="592.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="2061.5" y1="579" x2="2316.5" y2="579" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="611.5" fill="#0f172a" font-size="10.5" font-weight="400">category</text>
+<text x="2310" y="611.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketCategory</text>
+<line x1="2061.5" y1="598" x2="2316.5" y2="598" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="617" width="255" height="19" fill="#f8fafc"/>
+<text x="2106" y="630.5" fill="#0f172a" font-size="10.5" font-weight="400">priority</text>
+<text x="2310" y="630.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketPriority</text>
+<line x1="2061.5" y1="617" x2="2316.5" y2="617" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="649.5" fill="#0f172a" font-size="10.5" font-weight="400">status</text>
+<text x="2310" y="649.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketStatus</text>
+<line x1="2061.5" y1="636" x2="2316.5" y2="636" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="655" width="255" height="19" fill="#f8fafc"/>
+<text x="2068" y="668.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2106" y="668.5" fill="#0f172a" font-size="10.5" font-weight="400">routeId</text>
+<text x="2310" y="668.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="2061.5" y1="655" x2="2316.5" y2="655" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2068" y="687.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2106" y="687.5" fill="#0f172a" font-size="10.5" font-weight="400">journeyId</text>
+<text x="2310" y="687.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="2061.5" y1="674" x2="2316.5" y2="674" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="693" width="255" height="19" fill="#f8fafc"/>
+<text x="2068" y="706.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2106" y="706.5" fill="#0f172a" font-size="10.5" font-weight="400">assignedToId</text>
+<text x="2310" y="706.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="2061.5" y1="693" x2="2316.5" y2="693" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="725.5" fill="#0f172a" font-size="10.5" font-weight="400">escalated</text>
+<text x="2310" y="725.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="2061.5" y1="712" x2="2316.5" y2="712" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="731" width="255" height="19" fill="#f8fafc"/>
+<text x="2106" y="744.5" fill="#0f172a" font-size="10.5" font-weight="400">escalatedAt</text>
+<text x="2310" y="744.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="2061.5" y1="731" x2="2316.5" y2="731" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2068" y="763.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2106" y="763.5" fill="#0f172a" font-size="10.5" font-weight="400">escalatedById</text>
+<text x="2310" y="763.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="2061.5" y1="750" x2="2316.5" y2="750" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="769" width="255" height="19" fill="#f8fafc"/>
+<text x="2106" y="782.5" fill="#0f172a" font-size="10.5" font-weight="400">escalationReason</text>
+<text x="2310" y="782.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="2061.5" y1="769" x2="2316.5" y2="769" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="801.5" fill="#0f172a" font-size="10.5" font-weight="400">resolvedAt</text>
+<text x="2310" y="801.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="2061.5" y1="788" x2="2316.5" y2="788" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2061.5" y="807" width="255" height="19" fill="#f8fafc"/>
+<text x="2106" y="820.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="2310" y="820.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="2061.5" y1="807" x2="2316.5" y2="807" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2106" y="839.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="2310" y="839.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="2061.5" y1="826" x2="2316.5" y2="826" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="2400" y="360" width="258" height="164" rx="9" ry="9" fill="#ffffff" stroke="#7e22ce" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 2400 402 L 2400 369 Q 2400 360 2409 360 L 2649 360 Q 2658 360 2658 369 L 2658 402 Z" fill="#7e22ce"/>
+<text x="2529.0" y="379" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">SupportResponse</text>
+<text x="2529.0" y="394" text-anchor="middle" fill="#e9d2fb" font-size="9.5">Хариу / дотоод тэмдэглэл</text>
+<text x="2408" y="415.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="2446" y="415.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="2650" y="415.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="2401.5" y="421" width="255" height="19" fill="#f8fafc"/>
+<text x="2408" y="434.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2446" y="434.5" fill="#0f172a" font-size="10.5" font-weight="400">ticketId</text>
+<text x="2650" y="434.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="2401.5" y1="421" x2="2656.5" y2="421" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2408" y="453.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2446" y="453.5" fill="#0f172a" font-size="10.5" font-weight="400">authorId</text>
+<text x="2650" y="453.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="2401.5" y1="440" x2="2656.5" y2="440" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2401.5" y="459" width="255" height="19" fill="#f8fafc"/>
+<text x="2446" y="472.5" fill="#0f172a" font-size="10.5" font-weight="400">message</text>
+<text x="2650" y="472.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="2401.5" y1="459" x2="2656.5" y2="459" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2446" y="491.5" fill="#0f172a" font-size="10.5" font-weight="400">isInternal</text>
+<text x="2650" y="491.5" text-anchor="end" fill="#64748b" font-size="8.5">BOOL</text>
+<line x1="2401.5" y1="478" x2="2656.5" y2="478" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2401.5" y="497" width="255" height="19" fill="#f8fafc"/>
+<text x="2446" y="510.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="2650" y="510.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="2401.5" y1="497" x2="2656.5" y2="497" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="2400" y="600" width="258" height="202" rx="9" ry="9" fill="#ffffff" stroke="#7e22ce" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 2400 642 L 2400 609 Q 2400 600 2409 600 L 2649 600 Q 2658 600 2658 609 L 2658 642 Z" fill="#7e22ce"/>
+<text x="2529.0" y="619" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">TicketEvent</text>
+<text x="2529.0" y="634" text-anchor="middle" fill="#e9d2fb" font-size="9.5">Гомдол дээрх үйлдлийн түүх</text>
+<text x="2408" y="655.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="2446" y="655.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="2650" y="655.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="2401.5" y="661" width="255" height="19" fill="#f8fafc"/>
+<text x="2408" y="674.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2446" y="674.5" fill="#0f172a" font-size="10.5" font-weight="400">ticketId</text>
+<text x="2650" y="674.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="2401.5" y1="661" x2="2656.5" y2="661" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2408" y="693.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="2446" y="693.5" fill="#0f172a" font-size="10.5" font-weight="400">actorId</text>
+<text x="2650" y="693.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="2401.5" y1="680" x2="2656.5" y2="680" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2401.5" y="699" width="255" height="19" fill="#f8fafc"/>
+<text x="2446" y="712.5" fill="#0f172a" font-size="10.5" font-weight="400">type</text>
+<text x="2650" y="712.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketEventType</text>
+<line x1="2401.5" y1="699" x2="2656.5" y2="699" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2446" y="731.5" fill="#0f172a" font-size="10.5" font-weight="400">fromStatus</text>
+<text x="2650" y="731.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketStatus ?</text>
+<line x1="2401.5" y1="718" x2="2656.5" y2="718" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2401.5" y="737" width="255" height="19" fill="#f8fafc"/>
+<text x="2446" y="750.5" fill="#0f172a" font-size="10.5" font-weight="400">toStatus</text>
+<text x="2650" y="750.5" text-anchor="end" fill="#64748b" font-size="8.5">TicketStatus ?</text>
+<line x1="2401.5" y1="737" x2="2656.5" y2="737" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="2446" y="769.5" fill="#0f172a" font-size="10.5" font-weight="400">note</text>
+<text x="2650" y="769.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="2401.5" y1="756" x2="2656.5" y2="756" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="2401.5" y="775" width="255" height="19" fill="#f8fafc"/>
+<text x="2446" y="788.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="2650" y="788.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="2401.5" y1="775" x2="2656.5" y2="775" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="60" y="1270" width="258" height="202" rx="9" ry="9" fill="#ffffff" stroke="#475569" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 60 1312 L 60 1279 Q 60 1270 69 1270 L 309 1270 Q 318 1270 318 1279 L 318 1312 Z" fill="#475569"/>
+<text x="189.0" y="1289" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">Notification</text>
+<text x="189.0" y="1304" text-anchor="middle" fill="#d2dbe6" font-size="9.5">Мэдэгдэл</text>
+<text x="68" y="1325.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="106" y="1325.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="310" y="1325.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="61.5" y="1331" width="255" height="19" fill="#f8fafc"/>
+<text x="68" y="1344.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="106" y="1344.5" fill="#0f172a" font-size="10.5" font-weight="400">userId</text>
+<text x="310" y="1344.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<line x1="61.5" y1="1331" x2="316.5" y2="1331" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="106" y="1363.5" fill="#0f172a" font-size="10.5" font-weight="400">type</text>
+<text x="310" y="1363.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="1350" x2="316.5" y2="1350" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="61.5" y="1369" width="255" height="19" fill="#f8fafc"/>
+<text x="106" y="1382.5" fill="#0f172a" font-size="10.5" font-weight="400">title</text>
+<text x="310" y="1382.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="1369" x2="316.5" y2="1369" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="106" y="1401.5" fill="#0f172a" font-size="10.5" font-weight="400">body</text>
+<text x="310" y="1401.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="61.5" y1="1388" x2="316.5" y2="1388" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="61.5" y="1407" width="255" height="19" fill="#f8fafc"/>
+<text x="106" y="1420.5" fill="#0f172a" font-size="10.5" font-weight="400">link</text>
+<text x="310" y="1420.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="61.5" y1="1407" x2="316.5" y2="1407" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="106" y="1439.5" fill="#0f172a" font-size="10.5" font-weight="400">readAt</text>
+<text x="310" y="1439.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME ?</text>
+<line x1="61.5" y1="1426" x2="316.5" y2="1426" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="61.5" y="1445" width="255" height="19" fill="#f8fafc"/>
+<text x="106" y="1458.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="310" y="1458.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="61.5" y1="1445" x2="316.5" y2="1445" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="390" y="1270" width="258" height="221" rx="9" ry="9" fill="#ffffff" stroke="#475569" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 390 1312 L 390 1279 Q 390 1270 399 1270 L 639 1270 Q 648 1270 648 1279 L 648 1312 Z" fill="#475569"/>
+<text x="519.0" y="1289" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">AuditLog</text>
+<text x="519.0" y="1304" text-anchor="middle" fill="#d2dbe6" font-size="9.5">Аудитын бүртгэл</text>
+<text x="398" y="1325.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="436" y="1325.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="640" y="1325.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="391.5" y="1331" width="255" height="19" fill="#f8fafc"/>
+<text x="398" y="1344.5" fill="#1d4ed8" font-size="8" font-weight="700">FK</text>
+<text x="436" y="1344.5" fill="#0f172a" font-size="10.5" font-weight="400">actorId</text>
+<text x="640" y="1344.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="391.5" y1="1331" x2="646.5" y2="1331" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="436" y="1363.5" fill="#0f172a" font-size="10.5" font-weight="400">action</text>
+<text x="640" y="1363.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="391.5" y1="1350" x2="646.5" y2="1350" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="391.5" y="1369" width="255" height="19" fill="#f8fafc"/>
+<text x="436" y="1382.5" fill="#0f172a" font-size="10.5" font-weight="400">entityType</text>
+<text x="640" y="1382.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="391.5" y1="1369" x2="646.5" y2="1369" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="436" y="1401.5" fill="#0f172a" font-size="10.5" font-weight="400">entityId</text>
+<text x="640" y="1401.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="391.5" y1="1388" x2="646.5" y2="1388" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="391.5" y="1407" width="255" height="19" fill="#f8fafc"/>
+<text x="436" y="1420.5" fill="#0f172a" font-size="10.5" font-weight="400">summary</text>
+<text x="640" y="1420.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="391.5" y1="1407" x2="646.5" y2="1407" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="436" y="1439.5" fill="#0f172a" font-size="10.5" font-weight="400">metadata</text>
+<text x="640" y="1439.5" text-anchor="end" fill="#64748b" font-size="8.5">JSON ?</text>
+<line x1="391.5" y1="1426" x2="646.5" y2="1426" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="391.5" y="1445" width="255" height="19" fill="#f8fafc"/>
+<text x="436" y="1458.5" fill="#0f172a" font-size="10.5" font-weight="400">ipAddress</text>
+<text x="640" y="1458.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="391.5" y1="1445" x2="646.5" y2="1445" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="436" y="1477.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="640" y="1477.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="391.5" y1="1464" x2="646.5" y2="1464" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="720" y="1270" width="258" height="259" rx="9" ry="9" fill="#ffffff" stroke="#475569" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 720 1312 L 720 1279 Q 720 1270 729 1270 L 969 1270 Q 978 1270 978 1279 L 978 1312 Z" fill="#475569"/>
+<text x="849.0" y="1289" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">ErrorLog</text>
+<text x="849.0" y="1304" text-anchor="middle" fill="#d2dbe6" font-size="9.5">Алдааны бүртгэл</text>
+<text x="728" y="1325.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="766" y="1325.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">id</text>
+<text x="970" y="1325.5" text-anchor="end" fill="#64748b" font-size="8.5">INT</text>
+<rect x="721.5" y="1331" width="255" height="19" fill="#f8fafc"/>
+<text x="766" y="1344.5" fill="#0f172a" font-size="10.5" font-weight="400">source</text>
+<text x="970" y="1344.5" text-anchor="end" fill="#64748b" font-size="8.5">ErrorSource</text>
+<line x1="721.5" y1="1331" x2="976.5" y2="1331" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="766" y="1363.5" fill="#0f172a" font-size="10.5" font-weight="400">message</text>
+<text x="970" y="1363.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="721.5" y1="1350" x2="976.5" y2="1350" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="721.5" y="1369" width="255" height="19" fill="#f8fafc"/>
+<text x="766" y="1382.5" fill="#0f172a" font-size="10.5" font-weight="400">stack</text>
+<text x="970" y="1382.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="721.5" y1="1369" x2="976.5" y2="1369" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="766" y="1401.5" fill="#0f172a" font-size="10.5" font-weight="400">method</text>
+<text x="970" y="1401.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="721.5" y1="1388" x2="976.5" y2="1388" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="721.5" y="1407" width="255" height="19" fill="#f8fafc"/>
+<text x="766" y="1420.5" fill="#0f172a" font-size="10.5" font-weight="400">path</text>
+<text x="970" y="1420.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="721.5" y1="1407" x2="976.5" y2="1407" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="766" y="1439.5" fill="#0f172a" font-size="10.5" font-weight="400">statusCode</text>
+<text x="970" y="1439.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="721.5" y1="1426" x2="976.5" y2="1426" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="721.5" y="1445" width="255" height="19" fill="#f8fafc"/>
+<text x="728" y="1458.5" fill="#94a3b8" font-size="8" font-weight="700">~</text>
+<text x="766" y="1458.5" fill="#0f172a" font-size="10.5" font-weight="400">userId</text>
+<text x="970" y="1458.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="721.5" y1="1445" x2="976.5" y2="1445" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="766" y="1477.5" fill="#0f172a" font-size="10.5" font-weight="400">userAgent</text>
+<text x="970" y="1477.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT ?</text>
+<line x1="721.5" y1="1464" x2="976.5" y2="1464" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="721.5" y="1483" width="255" height="19" fill="#f8fafc"/>
+<text x="766" y="1496.5" fill="#0f172a" font-size="10.5" font-weight="400">context</text>
+<text x="970" y="1496.5" text-anchor="end" fill="#64748b" font-size="8.5">JSON ?</text>
+<line x1="721.5" y1="1483" x2="976.5" y2="1483" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="766" y="1515.5" fill="#0f172a" font-size="10.5" font-weight="400">createdAt</text>
+<text x="970" y="1515.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="721.5" y1="1502" x2="976.5" y2="1502" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g class="ent">
+<rect x="1050" y="1270" width="258" height="126" rx="9" ry="9" fill="#ffffff" stroke="#475569" stroke-width="1.6" filter="url(#shadow)"/>
+<path d="M 1050 1312 L 1050 1279 Q 1050 1270 1059 1270 L 1299 1270 Q 1308 1270 1308 1279 L 1308 1312 Z" fill="#475569"/>
+<text x="1179.0" y="1289" text-anchor="middle" fill="#ffffff" font-size="14.5" font-weight="700">SystemSetting</text>
+<text x="1179.0" y="1304" text-anchor="middle" fill="#d2dbe6" font-size="9.5">Системийн тохиргоо</text>
+<text x="1058" y="1325.5" fill="#b45309" font-size="8" font-weight="700">PK</text>
+<text x="1096" y="1325.5" fill="#0f172a" font-size="10.5" font-weight="700" text-decoration="underline">key</text>
+<text x="1300" y="1325.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<rect x="1051.5" y="1331" width="255" height="19" fill="#f8fafc"/>
+<text x="1096" y="1344.5" fill="#0f172a" font-size="10.5" font-weight="400">value</text>
+<text x="1300" y="1344.5" text-anchor="end" fill="#64748b" font-size="8.5">TEXT</text>
+<line x1="1051.5" y1="1331" x2="1306.5" y2="1331" stroke="#e2e8f0" stroke-width="0.7"/>
+<text x="1058" y="1363.5" fill="#94a3b8" font-size="8" font-weight="700">~</text>
+<text x="1096" y="1363.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedById</text>
+<text x="1300" y="1363.5" text-anchor="end" fill="#64748b" font-size="8.5">INT ?</text>
+<line x1="1051.5" y1="1350" x2="1306.5" y2="1350" stroke="#e2e8f0" stroke-width="0.7"/>
+<rect x="1051.5" y="1369" width="255" height="19" fill="#f8fafc"/>
+<text x="1096" y="1382.5" fill="#0f172a" font-size="10.5" font-weight="400">updatedAt</text>
+<text x="1300" y="1382.5" text-anchor="end" fill="#64748b" font-size="8.5">DATETIME</text>
+<line x1="1051.5" y1="1369" x2="1306.5" y2="1369" stroke="#e2e8f0" stroke-width="0.7"/>
+</g>
+<g><rect x="60" y="200" width="566" height="204" rx="8" ry="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4" filter="url(#shadow)"/>
+<path d="M 60 230 L 60 208 Q 60 200 68 200 L 618 200 Q 626 200 626 208 L 626 230 Z" fill="#1d4ed8"/>
+<text x="343.0" y="220" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">ЗАГВАРЫН ҮНДСЭН ДҮРМҮҮД</text>
+<text x="72" y="248" font-size="10" font-weight="700" fill="#1d4ed8">1.</text>
+<text x="122" y="248" font-size="10.5" fill="#334155">Зорчигч нэг үед зөвхөн нэг нээлттэй (ACTIVE/PAUSED) Journey-тэй:</text>
+<text x="122" y="268" font-size="10.5" fill="#334155">    шинийг эхлүүлэхэд хуучин нь CANCELLED (REPLACED) болно.</text>
+<text x="72" y="288" font-size="10" font-weight="700" fill="#1d4ed8">2.</text>
+<text x="122" y="288" font-size="10.5" fill="#334155">Journey нь маршрут, буудлын утгыг хуулбарлан хадгална</text>
+<text x="122" y="308" font-size="10.5" fill="#334155">    (routeNumber, destinationLat/Lng) — түүх хэвээр үлдэнэ.</text>
+<text x="72" y="328" font-size="10" font-weight="700" fill="#1d4ed8">3.</text>
+<text x="122" y="328" font-size="10.5" fill="#334155">Role ↔ Permission нь N:M — RolePermission задалсан хүснэгт.</text>
+<text x="72" y="348" font-size="10" font-weight="700" fill="#1d4ed8">4.</text>
+<text x="122" y="348" font-size="10.5" fill="#334155">User.passwordHash нь bcrypt, Session.id нь SHA-256 хэш.</text>
+<text x="72" y="368" font-size="10" font-weight="700" fill="#1d4ed8">5.</text>
+<text x="122" y="368" font-size="10.5" fill="#334155">Маршрут/буудал устахад Journey.routeId = NULL болно</text>
+<text x="122" y="388" font-size="10.5" fill="#334155">    (ON DELETE SET NULL), харин User устахад Journey устана.</text>
+</g>
+<g><rect x="1450" y="1190" width="560" height="204" rx="8" ry="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4" filter="url(#shadow)"/>
+<path d="M 1450 1220 L 1450 1198 Q 1450 1190 1458 1190 L 2002 1190 Q 2010 1190 2010 1198 L 2010 1220 Z" fill="#0f172a"/>
+<text x="1730.0" y="1210" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">ТЭМДЭГЛЭГЭЭ (Crow’s foot)</text>
+<text x="1462" y="1238" font-size="10" font-weight="700" fill="#1d4ed8">PK</text>
+<text x="1512" y="1238" font-size="10.5" fill="#334155">Үндсэн түлхүүр — доогуур зураастай, тод</text>
+<text x="1462" y="1258" font-size="10" font-weight="700" fill="#1d4ed8">FK</text>
+<text x="1512" y="1258" font-size="10.5" fill="#334155">Гадаад түлхүүр (өөр хүснэгт рүү заана)</text>
+<text x="1462" y="1278" font-size="10" font-weight="700" fill="#1d4ed8">UQ</text>
+<text x="1512" y="1278" font-size="10.5" fill="#334155">Давхардахгүй утга (unique)</text>
+<text x="1462" y="1298" font-size="10" font-weight="700" fill="#1d4ed8">?</text>
+<text x="1512" y="1298" font-size="10.5" fill="#334155">NULL утга зөвшөөрнө (заавал биш)</text>
+<text x="1462" y="1318" font-size="10" font-weight="700" fill="#1d4ed8">~</text>
+<text x="1512" y="1318" font-size="10.5" fill="#334155">Логик холбоо — өгөгдлийн санд FK биш (тасархай)</text>
+<line x1="1498.0" y1="1327.5" x2="1498.0" y2="1340.5" stroke="#5b6b80" stroke-width="1.6"/><line x1="1476" y1="1334" x2="1506" y2="1334" stroke="#5b6b80" stroke-width="1.5"/>
+<text x="1512" y="1338" font-size="10.5" fill="#334155">Яг нэг бичлэг (1)</text>
+<line x1="1500.0" y1="1347.5" x2="1500.0" y2="1360.5" stroke="#5b6b80" stroke-width="1.6"/><circle cx="1491.0" cy="1354.0" r="4.2" fill="#ffffff" stroke="#5b6b80" stroke-width="1.6"/><line x1="1476" y1="1354" x2="1506" y2="1354" stroke="#5b6b80" stroke-width="1.5"/>
+<text x="1512" y="1358" font-size="10.5" fill="#334155">Тэг эсвэл нэг бичлэг (0..1)</text>
+<path d="M 1493.0 1374.0 L 1506.0 1367.5 M 1493.0 1374.0 L 1506.0 1374.0 M 1493.0 1374.0 L 1506.0 1380.5" fill="none" stroke="#5b6b80" stroke-width="1.6"/><line x1="1476" y1="1374" x2="1493" y2="1374" stroke="#5b6b80" stroke-width="1.5"/>
+<text x="1512" y="1378" font-size="10.5" fill="#334155">Тэг ба түүнээс олон бичлэг (0..N)</text>
+</g>
+<g><rect x="2060" y="1190" width="600" height="264" rx="8" ry="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4" filter="url(#shadow)"/>
+<path d="M 2060 1220 L 2060 1198 Q 2060 1190 2068 1190 L 2652 1190 Q 2660 1190 2660 1198 L 2660 1220 Z" fill="#475569"/>
+<text x="2360.0" y="1210" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">ENUM (тогтмол утгууд)</text>
+<text x="2122" y="1238" font-size="10.5" fill="#334155">UserStatus: ACTIVE · SUSPENDED</text>
+<text x="2122" y="1258" font-size="10.5" fill="#334155">RouteStatus: ACTIVE · INACTIVE · DRAFT</text>
+<text x="2122" y="1278" font-size="10.5" fill="#334155">JourneyStatus: ACTIVE · PAUSED · COMPLETED · CANCELLED</text>
+<text x="2122" y="1298" font-size="10.5" fill="#334155">TicketStatus: OPEN · IN_PROGRESS · RESOLVED</text>
+<text x="2122" y="1318" font-size="10.5" fill="#334155">TicketCategory: COMPLAINT · FEEDBACK · QUESTION ·</text>
+<text x="2122" y="1338" font-size="10.5" fill="#334155">        APP_PROBLEM · ROUTE_DATA</text>
+<text x="2122" y="1358" font-size="10.5" fill="#334155">TicketPriority: LOW · NORMAL · HIGH · URGENT</text>
+<text x="2122" y="1378" font-size="10.5" fill="#334155">TicketEventType: CREATED · STATUS_CHANGED ·</text>
+<text x="2122" y="1398" font-size="10.5" fill="#334155">        PRIORITY_CHANGED · ASSIGNED · RESPONSE_ADDED ·</text>
+<text x="2122" y="1418" font-size="10.5" fill="#334155">        INTERNAL_NOTE · ESCALATED · REOPENED</text>
+<text x="2122" y="1438" font-size="10.5" fill="#334155">ErrorSource: SERVER · CLIENT</text>
+</g>
+</svg>
