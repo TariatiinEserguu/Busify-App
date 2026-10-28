@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+client/dist/
+server/dist/
+
+# Environment — never commit real settings or secrets
+.env
+.env.local
+.env.*.local
+
+# Local SQLite databases (persistent data lives here)
+server/data/*
+!server/data/.gitkeep
+*.db
+*.db-journal
+
+# Self-signed HTTPS certificates generated for LAN testing
+server/certs/
+
+# Logs and OS clutter
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+coverage/
+.vscode/*
+!.vscode/extensions.json
