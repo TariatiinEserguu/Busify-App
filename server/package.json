@@ -1,0 +1,52 @@
+{
+  "name": "@busify/server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BUSIFY local REST API (Express + Prisma + SQLite).",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "dotenv -e ../.env -- prisma migrate deploy",
+    "db:migrate:dev": "dotenv -e ../.env -- prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:seed:demo": "tsx prisma/seed-demo.ts",
+    "db:remove-demo": "tsx src/scripts/remove-demo.ts",
+    "db:reset": "dotenv -e ../.env -- prisma migrate reset --force --skip-seed && npm run db:seed && npm run db:seed:demo",
+    "db:studio": "dotenv -e ../.env -- prisma studio",
+    "create-admin": "tsx src/scripts/create-admin.ts"
+  },
+  "dependencies": {
+    "@busify/shared": "1.0.0",
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "3.0.3",
+    "compression": "1.8.2",
+    "cookie-parser": "1.4.7",
+    "dotenv": "17.4.2",
+    "express": "5.1.0",
+    "express-rate-limit": "8.7.1",
+    "helmet": "8.3.0",
+    "selfsigned": "2.4.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/compression": "1.8.1",
+    "@types/cookie-parser": "1.4.10",
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.5",
+    "@types/supertest": "6.0.3",
+    "dotenv-cli": "10.0.0",
+    "prisma": "6.19.3",
+    "supertest": "7.3.1",
+    "tsup": "8.5.1",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  }
+}
