@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { Dialog as D } from 'radix-ui';
 import {
@@ -231,6 +231,13 @@ function Banners() {
 
 export function AppShell({ children }: { children?: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  // On desktop <main> is the scroll container; start every page at the top.
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 });
+  }, [pathname]);
   return (
     <div className="flex min-h-dvh">
       {/* Desktop sidebar */}
@@ -259,7 +266,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
         </div>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col lg:h-dvh">
         {/* Mobile top bar */}
         <header className="sticky top-0 z-[900] flex h-14 items-center gap-2 border-b border-line bg-surface/95 px-3 backdrop-blur lg:hidden">
           <D.Root open={menuOpen} onOpenChange={setMenuOpen}>
@@ -304,7 +311,9 @@ export function AppShell({ children }: { children?: ReactNode }) {
           <JourneyPill className="m-2 mb-0" />
         </div>
         <Banners />
-        <main className="flex min-h-0 flex-1 flex-col">{children ?? <Outlet />}</main>
+        <main ref={mainRef} className="flex min-h-0 flex-1 flex-col lg:overflow-y-auto">
+          {children ?? <Outlet />}
+        </main>
       </div>
     </div>
   );
