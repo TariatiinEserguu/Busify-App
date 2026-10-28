@@ -26,7 +26,7 @@
     "db:remove-demo": "npm run db:remove-demo -w server",
     "db:reset": "npm run db:reset -w server",
     "db:studio": "npm run db:studio -w server",
-    "create-admin": "npm run create-admin -w server"
+    "create-admin": "npm run create-admin -w server --"
   },
   "devDependencies": {
     "concurrently": "9.2.5"
