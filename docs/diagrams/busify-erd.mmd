@@ -1,0 +1,206 @@
+%% BUSIFY entity-relationship diagram — mirrors server/prisma/schema.prisma.
+%% Rendered picture: docs/diagrams/busify-erd.svg (see generate-erd.py).
+erDiagram
+    Role            ||--o{ RolePermission  : "grants"
+    Permission      ||--o{ RolePermission  : "granted via"
+    Role            ||--o{ User            : "classifies"
+    User            ||--o{ Session         : "signs in with"
+    User            ||--|| UserSettings    : "configures"
+    User            ||--o{ Journey         : "starts"
+    Route           ||--o{ RouteStop       : "is made of"
+    Stop            ||--o{ RouteStop       : "appears on"
+    Route           |o--o{ Journey         : "travelled on"
+    Stop            |o--o{ Journey         : "destination of"
+    User            ||--o{ SupportTicket   : "reports"
+    User            |o--o{ SupportTicket   : "assigned to"
+    User            |o--o{ SupportTicket   : "escalated by"
+    Route           |o--o{ SupportTicket   : "concerns"
+    Journey         |o--o{ SupportTicket   : "concerns"
+    SupportTicket   ||--o{ SupportResponse : "answered by"
+    User            ||--o{ SupportResponse : "writes"
+    SupportTicket   ||--o{ TicketEvent     : "logs"
+    User            |o--o{ TicketEvent     : "acts on"
+    User            |o--o{ AuditLog        : "audited as"
+    User            ||--o{ Notification    : "receives"
+
+    Role {
+        int    id PK
+        string name UK "PASSENGER | SUPPORT | ADMIN"
+        string label
+        string description
+    }
+    Permission {
+        int    id  PK
+        string key UK
+        string description
+    }
+    RolePermission {
+        int roleId       PK, FK
+        int permissionId PK, FK
+    }
+    User {
+        int      id                 PK
+        string   email              UK
+        string   name
+        string   phone              "nullable"
+        string   passwordHash       "bcrypt"
+        int      roleId             FK
+        enum     status             "ACTIVE | SUSPENDED"
+        bool     mustChangePassword
+        bool     isDemoAccount
+        datetime lastLoginAt        "nullable"
+        datetime createdAt
+        datetime updatedAt
+    }
+    Session {
+        string   id         PK "SHA-256 of the cookie token"
+        int      userId     FK
+        datetime createdAt
+        datetime expiresAt
+        datetime lastUsedAt
+        string   userAgent  "nullable"
+        string   ipAddress  "nullable"
+    }
+    UserSettings {
+        int      userId               PK, FK
+        int      alertRadiusM         "default 200 m"
+        bool     soundEnabled
+        bool     vibrationEnabled
+        bool     notificationsEnabled
+        bool     keepScreenAwake
+        datetime updatedAt
+    }
+    Route {
+        int      id             PK
+        string   number         UK
+        string   name
+        string   description
+        enum     status         "ACTIVE | INACTIVE | DRAFT"
+        string   color
+        string   firstDeparture "nullable, HH:MM"
+        string   lastDeparture  "nullable, HH:MM"
+        int      headwayMinutes "nullable"
+        bool     isDemo
+        datetime createdAt
+        datetime updatedAt
+    }
+    Stop {
+        int      id          PK
+        string   code        UK "nullable"
+        string   name
+        string   description
+        float    latitude
+        float    longitude
+        bool     isDemo
+        datetime createdAt
+        datetime updatedAt
+    }
+    RouteStop {
+        int id       PK
+        int routeId  FK
+        int stopId   FK
+        int position "1-based order along the route"
+    }
+    Journey {
+        int      id                PK
+        int      userId            FK
+        int      routeId           FK "nullable, SET NULL"
+        int      destinationStopId FK "nullable, SET NULL"
+        string   routeNumber       "snapshot"
+        string   routeName         "snapshot"
+        string   destinationName   "snapshot"
+        float    destinationLat    "snapshot"
+        float    destinationLng    "snapshot"
+        int      alertRadiusM
+        enum     status            "ACTIVE | PAUSED | COMPLETED | CANCELLED"
+        datetime startedAt
+        datetime pausedAt          "nullable"
+        datetime endedAt           "nullable"
+        string   endReason         "nullable"
+        datetime alertTriggeredAt  "nullable"
+        float    alertDistanceM    "nullable"
+        int      alertCount
+        bool     alertRearmPending
+        float    lastDistanceM     "nullable"
+        float    lastAccuracyM     "nullable"
+        datetime lastPositionAt    "nullable"
+        bool     usedSimulation
+        datetime updatedAt
+    }
+    SupportTicket {
+        int      id               PK
+        int      userId           FK "the passenger"
+        string   subject
+        string   description
+        enum     category         "COMPLAINT | FEEDBACK | QUESTION | APP_PROBLEM | ROUTE_DATA"
+        enum     priority         "LOW | NORMAL | HIGH | URGENT"
+        enum     status           "OPEN | IN_PROGRESS | RESOLVED"
+        int      routeId          FK "nullable"
+        int      journeyId        FK "nullable"
+        int      assignedToId     FK "nullable, support agent"
+        bool     escalated
+        datetime escalatedAt      "nullable"
+        int      escalatedById    FK "nullable"
+        string   escalationReason "nullable"
+        datetime resolvedAt       "nullable"
+        datetime createdAt
+        datetime updatedAt
+    }
+    SupportResponse {
+        int      id         PK
+        int      ticketId   FK
+        int      authorId   FK
+        string   message
+        bool     isInternal "staff-only note"
+        datetime createdAt
+    }
+    TicketEvent {
+        int      id         PK
+        int      ticketId   FK
+        int      actorId    FK "nullable"
+        enum     type       "CREATED | STATUS_CHANGED | ... | REOPENED"
+        enum     fromStatus "nullable"
+        enum     toStatus   "nullable"
+        string   note       "nullable"
+        datetime createdAt
+    }
+    Notification {
+        int      id        PK
+        int      userId    FK
+        string   type
+        string   title
+        string   body
+        string   link      "nullable, in-app path"
+        datetime readAt    "nullable"
+        datetime createdAt
+    }
+    AuditLog {
+        int      id         PK
+        int      actorId    FK "nullable"
+        string   action     "e.g. route.create"
+        string   entityType
+        string   entityId   "nullable"
+        string   summary
+        json     metadata   "nullable"
+        string   ipAddress  "nullable"
+        datetime createdAt
+    }
+    ErrorLog {
+        int      id         PK
+        enum     source     "SERVER | CLIENT"
+        string   message
+        string   stack      "nullable"
+        string   method     "nullable"
+        string   path       "nullable"
+        int      statusCode "nullable"
+        int      userId     "nullable, logical only - no FK"
+        string   userAgent  "nullable"
+        json     context    "nullable"
+        datetime createdAt
+    }
+    SystemSetting {
+        string   key         PK
+        string   value       "JSON-encoded"
+        int      updatedById "nullable, logical only - no FK"
+        datetime updatedAt
+    }

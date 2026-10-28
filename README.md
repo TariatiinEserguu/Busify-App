@@ -48,7 +48,7 @@ and the alerts still work.*
 12. [Limitations](#limitations)
 13. [Troubleshooting](#troubleshooting)
 
-API reference: **[docs/API.md](docs/API.md)**
+API reference: **[docs/API.md](docs/API.md)** · Database and ER diagram: **[docs/DATABASE.md](docs/DATABASE.md)**
 
 ---
 
@@ -298,6 +298,7 @@ Windows shortcuts: `setup.bat`, `start-busify.bat`, `start-lan.bat`, `start-lan-
 * **File:** `server/data/busify.db` (git-ignored). **Back up** by copying it while BUSIFY is stopped.
 * **Schema:** [`server/prisma/schema.prisma`](server/prisma/schema.prisma).
   **Migrations:** `server/prisma/migrations/`.
+* **ER diagram and table reference:** [`docs/DATABASE.md`](docs/DATABASE.md).
 * **Browse data:** `npm run db:studio`, then open the URL it prints.
 
 | Table | Purpose |
@@ -405,6 +406,8 @@ busify/
 │     └─ lib/         API client, types, formatting
 ├─ scripts/           setup, LAN launcher, LAN info
 ├─ docs/API.md        REST API reference
+├─ docs/DATABASE.md   ER diagram and table reference
+├─ docs/diagrams/     ER diagram (SVG/PNG, Mermaid source, generator)
 └─ *.bat              Windows shortcuts
 ```
 
