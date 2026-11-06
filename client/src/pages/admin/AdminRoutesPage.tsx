@@ -14,6 +14,7 @@ import { PageHeader, Panel, Table, Td, Th } from '@/components/ui/layout';
 import { api, errorMessage, qs } from '@/lib/api';
 import type { RouteSummary } from '@/lib/types';
 import { timeAgo } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 export default function AdminRoutesPage() {
   const navigate = useNavigate();
@@ -32,15 +33,15 @@ export default function AdminRoutesPage() {
       await queryClient.invalidateQueries({ queryKey: ['routes'] });
       toast.success(`Route ${route.number} deleted`);
     } catch (err) {
-      toast.error('Could not delete the route', { description: errorMessage(err) });
+      toast.error(t('Could not delete the route'), { description: errorMessage(err) });
     }
   }
 
   return (
     <Page width="wide">
       <PageHeader
-        title="Routes"
-        description="Bus routes, their schedules and the order of their stops. Suspended and draft routes are hidden from passengers."
+        title={t('Routes')}
+        description={t('Bus routes, their schedules and the order of their stops. Suspended and draft routes are hidden from passengers.')}
         actions={
           <Button asChild>
             <Link to="/admin/routes/new">
@@ -52,13 +53,13 @@ export default function AdminRoutesPage() {
       <div className="mb-4 flex flex-wrap gap-2">
         <div className="relative w-full sm:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-subtle" aria-hidden />
-          <Input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Number, name or stop" className="pl-9" aria-label="Search routes" />
+          <Input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('Number, name or stop')} className="pl-9" aria-label={t('Search routes')} />
         </div>
-        <Select className="w-auto" value={status} onChange={(e) => setStatus(e.target.value as RouteStatus | '')} aria-label="Status">
-          <option value="">All statuses</option>
+        <Select className="w-auto" value={status} onChange={(e) => setStatus(e.target.value as RouteStatus | '')} aria-label={t('Status')}>
+          <option value="">{t('All statuses')}</option>
           {ROUTE_STATUSES.map((s) => (
             <option key={s} value={s}>
-              {ROUTE_STATUS_LABELS[s]}
+              {t(ROUTE_STATUS_LABELS[s])}
             </option>
           ))}
         </Select>
@@ -76,21 +77,21 @@ export default function AdminRoutesPage() {
             <Callout tone="error">{errorMessage(query.error)}</Callout>
           </div>
         ) : routes.length === 0 ? (
-          <EmptyState icon={RouteIcon} title={search || status ? 'No routes match' : 'No routes yet'} action={<Button asChild variant="outline"><Link to="/admin/routes/new">Create the first route</Link></Button>}>
-            Routes connect stops in order. Create the stops first, or add them while editing a route.
+          <EmptyState icon={RouteIcon} title={search || status ? 'No routes match' : 'No routes yet'} action={<Button asChild variant="outline"><Link to="/admin/routes/new">{t('Create the first route')}</Link></Button>}>
+            {t('Routes connect stops in order. Create the stops first, or add them while editing a route.')}
           </EmptyState>
         ) : (
           <Table>
             <thead>
               <tr>
-                <Th className="w-20">Route</Th>
-                <Th>Name</Th>
-                <Th className="hidden md:table-cell">Stops</Th>
-                <Th className="hidden lg:table-cell">Schedule</Th>
-                <Th>Status</Th>
-                <Th className="hidden sm:table-cell">Updated</Th>
+                <Th className="w-20">{t('Route')}</Th>
+                <Th>{t('Name')}</Th>
+                <Th className="hidden md:table-cell">{t('Stops')}</Th>
+                <Th className="hidden lg:table-cell">{t('Schedule')}</Th>
+                <Th>{t('Status')}</Th>
+                <Th className="hidden sm:table-cell">{t('Updated')}</Th>
                 <Th className="w-12">
-                  <span className="sr-only">Actions</span>
+                  <span className="sr-only">{t('Actions')}</span>
                 </Th>
               </tr>
             </thead>
@@ -123,8 +124,8 @@ export default function AdminRoutesPage() {
                         </Button>
                       }
                       title={`Delete route ${r.number}?`}
-                      description="Passengers will no longer see it. Any journey currently tracking on this route is ended. Past journeys keep their history. To hide it temporarily, set the status to Suspended instead."
-                      confirmLabel="Delete route"
+                      description={t('Passengers will no longer see it. Any journey currently tracking on this route is ended. Past journeys keep their history. To hide it temporarily, set the status to Suspended instead.')}
+                      confirmLabel={t('Delete route')}
                       destructive
                       onConfirm={() => remove(r)}
                     />

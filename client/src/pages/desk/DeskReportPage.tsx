@@ -11,6 +11,7 @@ import { Callout, EmptyState, Skeleton } from '@/components/ui/feedback';
 import { PageHeader, Panel, PanelHeader, Stat, Table, Td, Th } from '@/components/ui/layout';
 import { api, errorMessage, qs } from '@/lib/api';
 import { cn, downloadCsv, formatDateTime, formatHours } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 interface ResolvedReport {
   from: string;
@@ -52,8 +53,8 @@ export default function DeskReportPage() {
   return (
     <Page width="wide">
       <PageHeader
-        title="Resolved cases report"
-        description="Support requests resolved in the selected period, with resolution times."
+        title={t('Resolved cases report')}
+        description={t('Support requests resolved in the selected period, with resolution times.')}
         actions={
           <Button
             variant="outline"
@@ -62,18 +63,18 @@ export default function DeskReportPage() {
               r &&
               downloadCsv(
                 `busify-resolved-${range.from}-to-${range.to}.csv`,
-                r.tickets.map((t) => ({
-                  id: t.id,
-                  subject: t.subject,
-                  category: TICKET_CATEGORY_LABELS[t.category],
-                  priority: t.priority,
-                  escalated: t.escalated ? 'yes' : 'no',
-                  passenger: t.passenger.name,
-                  assigned_to: t.assignedTo?.name ?? '',
-                  route: t.routeNumber ?? '',
-                  opened: t.createdAt,
-                  resolved: t.resolvedAt,
-                  resolution_hours: t.resolutionHours.toFixed(2),
+                r.tickets.map((tk) => ({
+                  id: tk.id,
+                  subject: tk.subject,
+                  category: t(TICKET_CATEGORY_LABELS[tk.category]),
+                  priority: tk.priority,
+                  escalated: tk.escalated ? 'yes' : 'no',
+                  passenger: tk.passenger.name,
+                  assigned_to: tk.assignedTo?.name ?? '',
+                  route: tk.routeNumber ?? '',
+                  opened: tk.createdAt,
+                  resolved: tk.resolvedAt,
+                  resolution_hours: tk.resolutionHours.toFixed(2),
                 })),
               )
             }
@@ -89,71 +90,71 @@ export default function DeskReportPage() {
       {query.isLoading ? (
         <Skeleton className="h-64" />
       ) : query.isError ? (
-        <Callout tone="error" title="Could not load the report">
+        <Callout tone="error" title={t('Could not load the report')}>
           {errorMessage(query.error)}
         </Callout>
       ) : (
         <div className={cn('space-y-6', query.isFetching && 'opacity-70 transition-opacity')}>
           <Panel className="px-5 py-4">
             <dl className="grid grid-cols-2 gap-5 sm:grid-cols-5">
-              <Stat label="Opened in period" value={r!.summary.opened} />
-              <Stat label="Resolved" value={r!.summary.resolved} />
-              <Stat label="Were escalated" value={r!.summary.escalated} />
-              <Stat label="Average time to resolve" value={formatHours(r!.summary.averageResolutionHours)} />
-              <Stat label="Median time to resolve" value={formatHours(r!.summary.medianResolutionHours)} />
+              <Stat label={t('Opened in period')} value={r!.summary.opened} />
+              <Stat label={t('Resolved')} value={r!.summary.resolved} />
+              <Stat label={t('Were escalated')} value={r!.summary.escalated} />
+              <Stat label={t('Average time to resolve')} value={formatHours(r!.summary.averageResolutionHours)} />
+              <Stat label={t('Median time to resolve')} value={formatHours(r!.summary.medianResolutionHours)} />
             </dl>
           </Panel>
 
           <div className="grid gap-6 lg:grid-cols-2">
             <Panel>
-              <PanelHeader title="Resolved by category" />
+              <PanelHeader title={t('Resolved by category')} />
               <div className="p-4">
                 <BarList
-                  measure="Resolved requests"
-                  items={TICKET_CATEGORIES.map((c) => ({ name: TICKET_CATEGORY_LABELS[c], value: r!.byCategory[c] ?? 0 }))}
+                  measure={t('Resolved requests')}
+                  items={TICKET_CATEGORIES.map((c) => ({ name: t(TICKET_CATEGORY_LABELS[c]), value: r!.byCategory[c] ?? 0 }))}
                 />
               </div>
             </Panel>
             <Panel>
-              <PanelHeader title="Resolved by agent" />
+              <PanelHeader title={t('Resolved by agent')} />
               <div className="p-4">
-                <BarList measure="Resolved requests" items={r!.byAgent.map((a) => ({ name: a.name, value: a.count }))} />
+                <BarList measure={t('Resolved requests')} items={r!.byAgent.map((a) => ({ name: a.name, value: a.count }))} />
               </div>
             </Panel>
           </div>
 
           <Panel>
-            <PanelHeader title="Resolved requests" description={`${r!.tickets.length} in this period`} />
+            <PanelHeader title={t('Resolved requests')} description={`${r!.tickets.length} in this period`} />
             {r!.tickets.length === 0 ? (
-              <EmptyState icon={FileCheck2} title="No requests were resolved in this period">
-                Choose a longer period, or check the open tickets.
+              <EmptyState icon={FileCheck2} title={t('No requests were resolved in this period')}>
+                {t('Choose a longer period, or check the open tickets.')}
               </EmptyState>
             ) : (
               <Table>
                 <thead>
                   <tr>
                     <Th>#</Th>
-                    <Th>Subject</Th>
-                    <Th className="hidden md:table-cell">Category</Th>
-                    <Th className="hidden md:table-cell">Agent</Th>
-                    <Th>Resolved</Th>
-                    <Th className="text-right">Took</Th>
+                    <Th>{t('Subject')}</Th>
+                    <Th className="hidden md:table-cell">{t('Category')}</Th>
+                    <Th className="hidden md:table-cell">{t('Agent')}</Th>
+                    <Th>{t('Resolved')}</Th>
+                    <Th className="text-right">{t('Took')}</Th>
                   </tr>
                 </thead>
                 <tbody>
-                  {r!.tickets.map((t) => (
-                    <tr key={t.id} className="hover:bg-canvas">
-                      <Td className="tabular text-ink-subtle">{t.id}</Td>
+                  {r!.tickets.map((tk) => (
+                    <tr key={tk.id} className="hover:bg-canvas">
+                      <Td className="tabular text-ink-subtle">{tk.id}</Td>
                       <Td>
-                        <Link to={`/desk/tickets/${t.id}`} className="font-medium hover:underline">
-                          {t.subject}
+                        <Link to={`/desk/tickets/${tk.id}`} className="font-medium hover:underline">
+                          {tk.subject}
                         </Link>
-                        <div className="text-xs text-ink-subtle">{t.passenger.name}</div>
+                        <div className="text-xs text-ink-subtle">{tk.passenger.name}</div>
                       </Td>
-                      <Td className="hidden text-ink-muted md:table-cell">{TICKET_CATEGORY_LABELS[t.category]}</Td>
-                      <Td className="hidden text-ink-muted md:table-cell">{t.assignedTo?.name ?? '—'}</Td>
-                      <Td className="whitespace-nowrap text-ink-muted">{formatDateTime(t.resolvedAt)}</Td>
-                      <Td className="tabular text-right">{formatHours(t.resolutionHours)}</Td>
+                      <Td className="hidden text-ink-muted md:table-cell">{t(TICKET_CATEGORY_LABELS[tk.category])}</Td>
+                      <Td className="hidden text-ink-muted md:table-cell">{tk.assignedTo?.name ?? '—'}</Td>
+                      <Td className="whitespace-nowrap text-ink-muted">{formatDateTime(tk.resolvedAt)}</Td>
+                      <Td className="tabular text-right">{formatHours(tk.resolutionHours)}</Td>
                     </tr>
                   ))}
                 </tbody>

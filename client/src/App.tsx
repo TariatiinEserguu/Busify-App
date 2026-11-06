@@ -11,10 +11,15 @@ import { AuthProvider, useAuth } from '@/features/auth/AuthProvider';
 import { homeFor } from '@/features/auth/homeFor';
 import { JourneyProvider } from '@/features/journey/JourneyProvider';
 import { ApiError } from '@/lib/api';
+import { useI18n } from '@/lib/i18n';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { ChangePasswordPage } from '@/pages/auth/ChangePasswordPage';
+import { HomePage } from '@/pages/passenger/HomePage';
+import { PlanPage } from '@/pages/passenger/PlanPage';
 import { JourneyPage } from '@/pages/passenger/JourneyPage';
+import { MapPage } from '@/pages/passenger/MapPage';
+import { ProfilePage } from '@/pages/passenger/ProfilePage';
 import { HistoryPage } from '@/pages/passenger/HistoryPage';
 import { SettingsPage } from '@/pages/passenger/SettingsPage';
 import { MySupportPage } from '@/pages/support/MySupportPage';
@@ -48,14 +53,15 @@ function FullPageMessage({ children }: { children: ReactNode }) {
 
 function ServerUnreachable() {
   const { retry, error } = useAuth();
+  const { t } = useI18n();
   return (
     <FullPageMessage>
       <EmptyState
         icon={ServerCrash}
-        title="Cannot reach the BUSIFY server"
-        action={<Button onClick={retry}>Try again</Button>}
+        title={t('Cannot reach the BUSIFY server')}
+        action={<Button onClick={retry}>{t('Try again')}</Button>}
       >
-        {error instanceof ApiError && error.status ? error.message : 'Make sure the server is running on the computer that hosts BUSIFY and that this device is on the same Wi-Fi network.'}
+        {error instanceof ApiError && error.status ? t(error.message) : t('Make sure the server is running on the computer that hosts BUSIFY and that this device is on the same Wi-Fi network.')}
       </EmptyState>
     </FullPageMessage>
   );
@@ -64,7 +70,7 @@ function ServerUnreachable() {
 function RequireAuth() {
   const { status, user } = useAuth();
   const location = useLocation();
-  if (status === 'loading') return <FullPageMessage><Spinner label="Loading BUSIFY" /></FullPageMessage>;
+  if (status === 'loading') return <FullPageMessage><Spinner label="BUSIFY" /></FullPageMessage>;
   if (status === 'unreachable') return <ServerUnreachable />;
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname + location.search }} />;
   if (user.mustChangePassword) return <Navigate to="/change-password" replace />;
@@ -84,11 +90,12 @@ function PublicOnly({ children }: { children: ReactNode }) {
 
 function Allow({ permission, children }: { permission: PermissionKey; children: ReactNode }) {
   const { can } = useAuth();
+  const { t } = useI18n();
   if (!can(permission)) {
     return (
       <Page>
-        <EmptyState icon={ShieldAlert} title="You do not have access to this page">
-          Your account role does not include this area. Ask an administrator if you think this is a mistake.
+        <EmptyState icon={ShieldAlert} title={t('You do not have access to this page')}>
+          {t('Your account role does not include this area. Ask an administrator if you think this is a mistake.')}
         </EmptyState>
       </Page>
     );
@@ -99,6 +106,8 @@ function Allow({ permission, children }: { permission: PermissionKey; children: 
 }
 
 export function App() {
+  // Subscribing here re-renders the whole tree when the language changes.
+  useI18n();
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -108,13 +117,19 @@ export function App() {
             <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route element={<RequireAuth />}>
-              <Route index element={<Allow permission="journeys:use"><JourneyPage /></Allow>} />
+              <Route index element={<Allow permission="journeys:use"><HomePage /></Allow>} />
+              <Route path="plan" element={<Allow permission="journeys:use"><PlanPage /></Allow>} />
+              <Route path="journey" element={<Allow permission="journeys:use"><JourneyPage /></Allow>} />
+              <Route path="map" element={<Allow permission="journeys:use"><MapPage /></Allow>} />
+              <Route path="profile" element={<ProfilePage />} />
               <Route path="history" element={<Allow permission="journeys:use"><HistoryPage /></Allow>} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="support" element={<Allow permission="tickets:create"><MySupportPage /></Allow>} />
               <Route path="support/:id" element={<TicketPage mode="passenger" />} />
-              <Route path="desk" element={<Allow permission="tickets:manage"><DeskPage /></Allow>} />
-              <Route path="desk/tickets/:id" element={<Allow permission="tickets:manage"><TicketPage mode="staff" /></Allow>} />
+              <Route path="desk" element={<Allow permission="tickets:manage"><DeskPage view="inbox" /></Allow>} />
+              <Route path="desk/tickets/:id" element={<Allow permission="tickets:manage"><DeskPage view="inbox" /></Allow>} />
+              <Route path="desk/escalated" element={<Allow permission="tickets:manage"><DeskPage view="escalated" /></Allow>} />
+              <Route path="desk/escalated/:id" element={<Allow permission="tickets:manage"><DeskPage view="escalated" /></Allow>} />
               <Route path="desk/reports" element={<Allow permission="support:reports"><DeskReportPage /></Allow>} />
               <Route path="admin" element={<Allow permission="reports:view"><AdminOverviewPage /></Allow>} />
               <Route path="admin/routes" element={<Allow permission="routes:manage"><AdminRoutesPage /></Allow>} />
@@ -128,7 +143,7 @@ export function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-        <Toaster position="top-center" richColors closeButton toastOptions={{ className: 'font-sans' }} />
+        <Toaster position="top-center" richColors closeButton toastOptions={{ className: 'font-sans !rounded-2xl' }} />
       </AuthProvider>
     </QueryClientProvider>
   );

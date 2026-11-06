@@ -4,6 +4,7 @@ import type { Map as LeafletMap } from 'leaflet';
 import { Crosshair, Maximize2 } from 'lucide-react';
 import type { LatLng } from '@busify/shared';
 import { appConfig } from '@/lib/config';
+import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { destinationIcon, FitBounds, FollowPoint, InvalidateOnResize, TileFailureNotice, Tiles, userIcon } from './MapBase';
 
@@ -36,6 +37,14 @@ interface BusMapProps {
   fitKey?: string | number;
   /** Keep the user's (moving) position in view. */
   followUser?: boolean;
+  /** Draw the user as the bus tile (during a journey). */
+  userAsBus?: boolean;
+  /** Hide the zoom/fit buttons (small preview maps). */
+  hideControls?: boolean;
+  /** Non-interactive preview (no drag/zoom). */
+  static?: boolean;
+  /** Where the zoom buttons sit. */
+  controlsClassName?: string;
   className?: string;
   overlay?: ReactNode;
   ariaLabel?: string;
@@ -58,10 +67,15 @@ export function BusMap({
   onMapClick,
   fitKey,
   followUser,
+  userAsBus,
+  hideControls,
+  static: isStatic,
+  controlsClassName,
   className,
   overlay,
-  ariaLabel = 'Map of the route and stops',
+  ariaLabel,
 }: BusMapProps) {
+  const { t } = useI18n();
   const mapRef = useRef<LeafletMap | null>(null);
   const [tilesFailed, setTilesFailed] = useState(false);
 
@@ -82,7 +96,7 @@ export function BusMap({
   const line = stops.map((s) => [s.latitude, s.longitude] as [number, number]);
 
   return (
-    <div role="region" aria-label={ariaLabel} className={cn('relative isolate overflow-hidden bg-slate-200', className)}>
+    <div role="region" aria-label={ariaLabel ?? t('Map of the route and stops')} className={cn('busify-map relative isolate overflow-hidden bg-[#eef0ea]', className)}>
       <MapContainer
         ref={mapRef}
         center={appConfig.defaultCenter}
@@ -90,6 +104,12 @@ export function BusMap({
         className="h-full w-full"
         zoomControl={false}
         attributionControl
+        dragging={!isStatic}
+        scrollWheelZoom={!isStatic}
+        doubleClickZoom={!isStatic}
+        touchZoom={!isStatic}
+        keyboard={!isStatic}
+        zoomSnap={0.25}
       >
         <Tiles onFailure={setTilesFailed} />
         <InvalidateOnResize />
@@ -99,8 +119,8 @@ export function BusMap({
 
         {line.length > 1 && (
           <>
-            <Polyline positions={line} pathOptions={{ color: '#ffffff', weight: 9, opacity: 0.9 }} />
-            <Polyline positions={line} pathOptions={{ color: routeColor, weight: 5, opacity: 0.95 }} />
+            <Polyline key={`c-${line.length}-${routeColor}`} positions={line} pathOptions={{ color: '#ffffff', weight: 11, opacity: 1, lineJoin: 'round', className: 'busify-route-casing' }} />
+            <Polyline key={`l-${line.length}-${routeColor}`} positions={line} pathOptions={{ color: routeColor, weight: 6, opacity: 1, lineJoin: 'round', className: 'busify-route-line' }} />
           </>
         )}
 
@@ -108,11 +128,11 @@ export function BusMap({
           <CircleMarker
             key={`o-${s.id}`}
             center={[s.latitude, s.longitude]}
-            radius={5}
-            pathOptions={{ color: '#64748b', weight: 2, fillColor: '#ffffff', fillOpacity: 1 }}
+            radius={6}
+            pathOptions={{ color: '#7a8090', weight: 2.5, fillColor: '#ffffff', fillOpacity: 1 }}
             eventHandlers={onStopClick ? { click: () => onStopClick(s.id) } : undefined}
           >
-            <Tooltip className="busify-tooltip" direction="top" offset={[0, -6]}>
+            <Tooltip className="busify-tooltip-light" direction="top" offset={[0, -8]}>
               {s.name}
             </Tooltip>
           </CircleMarker>
@@ -125,12 +145,12 @@ export function BusMap({
             <CircleMarker
               key={`s-${s.id}`}
               center={[s.latitude, s.longitude]}
-              radius={isTerminus ? 7 : 6}
-              pathOptions={{ color: routeColor, weight: 3, fillColor: '#ffffff', fillOpacity: 1 }}
+              radius={isTerminus ? 7 : 5}
+              pathOptions={{ color: routeColor, weight: isTerminus ? 4 : 3, fillColor: '#ffffff', fillOpacity: 1 }}
               eventHandlers={onStopClick ? { click: () => onStopClick(s.id) } : undefined}
             >
               {!isDestination && (
-                <Tooltip className="busify-tooltip" direction="top" offset={[0, -6]}>
+                <Tooltip className="busify-tooltip-light" direction="top" offset={[0, -8]}>
                   {i + 1}. {s.name}
                 </Tooltip>
               )}
@@ -142,13 +162,14 @@ export function BusMap({
           <Circle
             center={[destination.lat, destination.lng]}
             radius={alertRadiusM}
-            pathOptions={{ color: '#d97706', weight: 2, dashArray: '6 6', fillColor: '#f59e0b', fillOpacity: 0.08 }}
+            pathOptions={{ color: '#e0a100', weight: 2.5, dashArray: '7 7', fillColor: '#ffc233', fillOpacity: 0.2, className: 'busify-alert-zone' }}
           />
         ) : null}
         {destination && (
           <Marker position={[destination.lat, destination.lng]} icon={destinationIcon} keyboard={false}>
             <Tooltip className="busify-tooltip" direction="top" permanent>
               {destination.name}
+              {alertRadiusM ? ` · ${t('{n} m zone', { n: alertRadiusM })}` : ''}
             </Tooltip>
           </Marker>
         )}
@@ -159,12 +180,12 @@ export function BusMap({
               <Circle
                 center={[user.lat, user.lng]}
                 radius={user.accuracyM}
-                pathOptions={{ color: user.simulated ? '#7c3aed' : '#2553eb', weight: 1, fillOpacity: 0.08, opacity: 0.4 }}
+                pathOptions={{ color: user.simulated ? '#6d28d9' : '#10162c', weight: 1, fillOpacity: 0.06, opacity: 0.3 }}
               />
             )}
-            <Marker position={[user.lat, user.lng]} icon={userIcon(user.simulated)} keyboard={false} zIndexOffset={1000}>
-              <Tooltip className="busify-tooltip" direction="right" offset={[10, 0]}>
-                {user.simulated ? 'Simulated position' : 'You are here'}
+            <Marker position={[user.lat, user.lng]} icon={userIcon(user.simulated, userAsBus)} keyboard={false} zIndexOffset={1000}>
+              <Tooltip className="busify-tooltip-light" direction="right" offset={[14, 0]}>
+                {user.simulated ? t('Simulated position') : t('You are here')}
               </Tooltip>
             </Marker>
           </>
@@ -173,19 +194,16 @@ export function BusMap({
 
       <TileFailureNotice show={tilesFailed} />
 
-      <div className="absolute right-3 top-3 z-[400] flex flex-col gap-1.5">
-        <MapButton
-          label="Zoom in"
-          onClick={() => mapRef.current?.zoomIn()}
-        >
+      {!hideControls && <div className={cn('absolute right-3 top-3 z-[400] flex flex-col gap-1.5', controlsClassName)}>
+        <MapButton label={t('Zoom in')} onClick={() => mapRef.current?.zoomIn()}>
           <span className="text-lg leading-none">+</span>
         </MapButton>
-        <MapButton label="Zoom out" onClick={() => mapRef.current?.zoomOut()}>
+        <MapButton label={t('Zoom out')} onClick={() => mapRef.current?.zoomOut()}>
           <span className="text-lg leading-none">−</span>
         </MapButton>
         {fitPoints.length > 0 && (
           <MapButton
-            label="Show the whole route"
+            label={t('Show the whole route')}
             onClick={() => {
               const map = mapRef.current;
               if (!map) return;
@@ -197,11 +215,11 @@ export function BusMap({
           </MapButton>
         )}
         {user && (
-          <MapButton label="Centre on my position" onClick={() => mapRef.current?.setView([user.lat, user.lng], 16)}>
+          <MapButton label={t('Centre on my position')} onClick={() => mapRef.current?.flyTo([user.lat, user.lng], 16, { duration: 0.6 })}>
             <Crosshair className="size-4" />
           </MapButton>
         )}
-      </div>
+      </div>}
       {overlay}
     </div>
   );
@@ -214,7 +232,7 @@ function MapButton({ label, onClick, children }: { label: string; onClick: () =>
       onClick={onClick}
       title={label}
       aria-label={label}
-      className="flex size-9 items-center justify-center rounded-lg border border-line bg-surface text-ink shadow-sm hover:bg-canvas"
+      className="press flex size-10 items-center justify-center rounded-xl bg-surface/95 text-ink shadow-float backdrop-blur transition-colors hover:bg-surface"
     >
       {children}
     </button>

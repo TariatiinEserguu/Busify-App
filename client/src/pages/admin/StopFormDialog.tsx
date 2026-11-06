@@ -12,6 +12,7 @@ import { Input, Textarea } from '@/components/ui/input';
 import { api, errorMessage } from '@/lib/api';
 import { useForm } from '@/lib/form';
 import type { Stop } from '@/lib/types';
+import { t } from '@/lib/i18n';
 
 interface StopFormDialogProps {
   open: boolean;
@@ -83,11 +84,11 @@ export function StopFormDialog({ open, onOpenChange, stop, contextStops = [], on
       <DialogContent
         className="max-w-3xl"
         title={stop ? `Edit stop — ${stop.name}` : 'New stop'}
-        description="Enter the real location of the stop. Coordinates use decimal degrees (WGS 84), e.g. 47.918700, 106.908000."
+        description={t('Enter the real location of the stop. Coordinates use decimal degrees (WGS 84), e.g. 47.918700, 106.908000.')}
         footer={
           <>
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t('Cancel')}
             </Button>
             <Button type="submit" form="stop-form" loading={busy}>
               {stop ? 'Save stop' : 'Create stop'}
@@ -98,17 +99,17 @@ export function StopFormDialog({ open, onOpenChange, stop, contextStops = [], on
         <form id="stop-form" onSubmit={onSubmit} noValidate className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
           <div className="space-y-4">
             {formError && <Callout tone="error">{formError}</Callout>}
-            <Field label="Stop name" error={form.errors.name}>
+            <Field label={t('Stop name')} error={form.errors.name}>
               <Input {...form.bind('name')} autoFocus />
             </Field>
-            <Field label="Stop code" optional error={form.errors.code} hint="Short reference printed at the stop, e.g. CP-01.">
+            <Field label={t('Stop code')} optional error={form.errors.code} hint={t('Short reference printed at the stop, e.g. CP-01.')}>
               <Input {...form.bind('code')} className="font-mono uppercase" />
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Latitude" error={form.errors.latitude}>
+              <Field label={t('Latitude')} error={form.errors.latitude}>
                 <Input inputMode="decimal" placeholder="47.918700" {...form.bind('latitude')} className="font-mono" />
               </Field>
-              <Field label="Longitude" error={form.errors.longitude}>
+              <Field label={t('Longitude')} error={form.errors.longitude}>
                 <Input inputMode="decimal" placeholder="106.908000" {...form.bind('longitude')} className="font-mono" />
               </Field>
             </div>
@@ -119,15 +120,15 @@ export function StopFormDialog({ open, onOpenChange, stop, contextStops = [], on
               onClick={() =>
                 navigator.geolocation?.getCurrentPosition(
                   (pos) => setPoint({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-                  () => toast.error('Could not read your location', { description: 'Check the location permission, or pick the point on the map.' }),
+                  () => toast.error(t('Could not read your location'), { description: 'Check the location permission, or pick the point on the map.' }),
                   { enableHighAccuracy: true, timeout: 15_000 },
                 )
               }
             >
               <LocateFixed aria-hidden /> Use my current location
             </Button>
-            <Field label="Description" optional error={form.errors.description}>
-              <Textarea rows={3} {...form.bind('description')} placeholder="Which side of the road, landmarks…" />
+            <Field label={t('Description')} optional error={form.errors.description}>
+              <Textarea rows={3} {...form.bind('description')} placeholder={t('Which side of the road, landmarks…')} />
             </Field>
           </div>
           <MapPicker

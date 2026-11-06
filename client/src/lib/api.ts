@@ -1,4 +1,5 @@
 import type { FieldIssue } from '@busify/shared';
+import { t } from './i18n';
 import { appConfig } from './config';
 
 /** An error response from the BUSIFY API (or a network failure, status 0). */
@@ -98,8 +99,9 @@ export function qs(params: object) {
   return s ? `?${s}` : '';
 }
 
+/** A user-facing message for any error, translated when a translation exists. */
 export function errorMessage(err: unknown, fallback = 'Something went wrong.'): string {
-  if (err instanceof ApiError) return err.message;
-  if (err instanceof Error && err.message) return err.message;
-  return fallback;
+  if (err instanceof ApiError) return t(err.message);
+  if (err instanceof Error && err.message) return t(err.message);
+  return t(fallback);
 }

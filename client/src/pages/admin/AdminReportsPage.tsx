@@ -10,6 +10,7 @@ import { Callout, Skeleton } from '@/components/ui/feedback';
 import { PageHeader, Panel, PanelHeader, Stat, Table, Td, Th } from '@/components/ui/layout';
 import { api, errorMessage, qs } from '@/lib/api';
 import { cn, downloadCsv, formatDateTime, formatHours } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 interface Report {
   from: string;
@@ -54,8 +55,8 @@ export default function AdminReportsPage() {
   return (
     <Page width="wide">
       <PageHeader
-        title="Reports"
-        description="Usage statistics, alert performance, support load and errors for the selected period."
+        title={t('Reports')}
+        description={t('Usage statistics, alert performance, support load and errors for the selected period.')}
         actions={
           <Button
             variant="outline"
@@ -87,69 +88,69 @@ export default function AdminReportsPage() {
       {query.isLoading ? (
         <Skeleton className="h-96" />
       ) : query.isError ? (
-        <Callout tone="error" title="Could not load the report">{errorMessage(query.error)}</Callout>
+        <Callout tone="error" title={t('Could not load the report')}>{errorMessage(query.error)}</Callout>
       ) : (
         <div className={cn('space-y-6', query.isFetching && 'opacity-70 transition-opacity')}>
           <Panel className="px-5 py-4">
             <dl className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-6">
-              <Stat label="Journeys" value={r!.totals.journeys} sub={`${r!.totals.simulatedJourneys} used the simulator`} />
-              <Stat label="Alerts sent" value={r!.totals.alerts} sub={r!.totals.alertRate != null ? `${Math.round(r!.totals.alertRate * 100)}% of journeys` : 'No journeys'} />
-              <Stat label="New accounts" value={r!.totals.newUsers} sub={`${r!.totals.newPassengers} passengers`} />
-              <Stat label="Tickets opened" value={r!.totals.ticketsOpened} sub={`${r!.totals.ticketsResolved} resolved`} />
-              <Stat label="Avg. resolution" value={formatHours(r!.totals.averageResolutionHours)} />
-              <Stat label="Errors" value={r!.totals.errors} sub={`${r!.totals.serverErrors} server · ${r!.totals.clientErrors} app`} tone={r!.totals.serverErrors ? 'danger' : 'default'} />
+              <Stat label={t('Journeys')} value={r!.totals.journeys} sub={`${r!.totals.simulatedJourneys} used the simulator`} />
+              <Stat label={t('Alerts sent')} value={r!.totals.alerts} sub={r!.totals.alertRate != null ? `${Math.round(r!.totals.alertRate * 100)}% of journeys` : 'No journeys'} />
+              <Stat label={t('New accounts')} value={r!.totals.newUsers} sub={`${r!.totals.newPassengers} passengers`} />
+              <Stat label={t('Tickets opened')} value={r!.totals.ticketsOpened} sub={`${r!.totals.ticketsResolved} resolved`} />
+              <Stat label={t('Avg. resolution')} value={formatHours(r!.totals.averageResolutionHours)} />
+              <Stat label={t('Errors')} value={r!.totals.errors} sub={`${r!.totals.serverErrors} server · ${r!.totals.clientErrors} app`} tone={r!.totals.serverErrors ? 'danger' : 'default'} />
             </dl>
           </Panel>
 
           <Panel>
-            <PanelHeader title="Per day" description={`${r!.days} days · hover or focus a column for its value`} />
+            <PanelHeader title={t('Per day')} description={`${r!.days} days · hover or focus a column for its value`} />
             <div className="grid gap-x-8 gap-y-8 p-5 md:grid-cols-2 xl:grid-cols-3">
-              <ColumnChart title="Journeys started" measure="Journeys" data={series('journeys')} />
-              <ColumnChart title="Stop alerts sent" measure="Alerts" data={series('alerts')} />
-              <ColumnChart title="New accounts" measure="Accounts" data={series('newUsers')} />
-              <ColumnChart title="Support tickets opened" measure="Tickets" data={series('ticketsOpened')} />
-              <ColumnChart title="Support tickets resolved" measure="Tickets" data={series('ticketsResolved')} />
-              <ColumnChart title="Errors recorded" measure="Errors" data={series('errors')} />
+              <ColumnChart title={t('Journeys started')} measure={t('Journeys')} data={series('journeys')} />
+              <ColumnChart title={t('Stop alerts sent')} measure={t('Alerts')} data={series('alerts')} />
+              <ColumnChart title={t('New accounts')} measure={t('Accounts')} data={series('newUsers')} />
+              <ColumnChart title={t('Support tickets opened')} measure={t('Tickets')} data={series('ticketsOpened')} />
+              <ColumnChart title={t('Support tickets resolved')} measure={t('Tickets')} data={series('ticketsResolved')} />
+              <ColumnChart title={t('Errors recorded')} measure={t('Errors')} data={series('errors')} />
             </div>
           </Panel>
 
           <div className="grid gap-6 lg:grid-cols-3">
             <Panel>
-              <PanelHeader title="Journey outcomes" />
+              <PanelHeader title={t('Journey outcomes')} />
               <div className="p-4">
-                <BarList measure="Journeys" items={(Object.keys(r!.journeyOutcomes) as JourneyStatus[]).map((k) => ({ name: JOURNEY_STATUS_LABELS[k], value: r!.journeyOutcomes[k] }))} />
+                <BarList measure={t('Journeys')} items={(Object.keys(r!.journeyOutcomes) as JourneyStatus[]).map((k) => ({ name: t(JOURNEY_STATUS_LABELS[k]), value: r!.journeyOutcomes[k] }))} />
               </div>
             </Panel>
             <Panel>
-              <PanelHeader title="Most chosen destinations" />
+              <PanelHeader title={t('Most chosen destinations')} />
               <div className="p-4">
-                <BarList measure="Journeys" items={r!.topDestinations.map((t) => ({ name: t.name, value: t.count }))} />
+                <BarList measure={t('Journeys')} items={r!.topDestinations.map((t) => ({ name: t.name, value: t.count }))} />
               </div>
             </Panel>
             <Panel>
-              <PanelHeader title="Busiest routes" />
+              <PanelHeader title={t('Busiest routes')} />
               <div className="p-4">
-                <BarList measure="Journeys" items={r!.topRoutes.map((t) => ({ name: t.name, value: t.count }))} />
+                <BarList measure={t('Journeys')} items={r!.topRoutes.map((t) => ({ name: t.name, value: t.count }))} />
               </div>
             </Panel>
             <Panel>
-              <PanelHeader title="Tickets by category" />
+              <PanelHeader title={t('Tickets by category')} />
               <div className="p-4">
-                <BarList measure="Tickets" items={TICKET_CATEGORIES.map((c) => ({ name: TICKET_CATEGORY_LABELS[c], value: r!.ticketsByCategory[c] }))} />
+                <BarList measure={t('Tickets')} items={TICKET_CATEGORIES.map((c) => ({ name: t(TICKET_CATEGORY_LABELS[c]), value: r!.ticketsByCategory[c] }))} />
               </div>
             </Panel>
             <Panel className="lg:col-span-2">
-              <PanelHeader title="Most frequent errors" description="Grouped by message — open Activity & errors for details" />
+              <PanelHeader title={t('Most frequent errors')} description={t('Grouped by message — open Activity & errors for details')} />
               {r!.topErrors.length === 0 ? (
-                <p className="px-4 py-8 text-center text-sm text-ink-muted">No errors in this period.</p>
+                <p className="px-4 py-8 text-center text-sm text-ink-muted">{t('No errors in this period.')}</p>
               ) : (
                 <Table>
                   <thead>
                     <tr>
-                      <Th>Message</Th>
-                      <Th>Source</Th>
-                      <Th className="text-right">Count</Th>
-                      <Th className="hidden md:table-cell">Last seen</Th>
+                      <Th>{t('Message')}</Th>
+                      <Th>{t('Source')}</Th>
+                      <Th className="text-right">{t('Count')}</Th>
+                      <Th className="hidden md:table-cell">{t('Last seen')}</Th>
                     </tr>
                   </thead>
                   <tbody>

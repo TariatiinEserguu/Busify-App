@@ -1,4 +1,5 @@
 import { Slider } from '@/components/ui/controls';
+import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 const PRESETS = [100, 200, 300, 500, 800];
@@ -17,14 +18,15 @@ export function RadiusControl({
   max: number;
   disabled?: boolean;
 }) {
+  const { t, meters } = useI18n();
   const presets = PRESETS.filter((p) => p >= min && p <= max);
   return (
     <div>
       <div className="flex items-baseline justify-between">
         <span className="text-sm font-medium text-ink" id="radius-label">
-          Alert me within
+          {t('Alert me within')}
         </span>
-        <span className="tabular text-sm font-semibold text-ink">{value} m</span>
+        <span className="tabular text-sm font-semibold text-ink">{meters(value)}</span>
       </div>
       <Slider
         className="mt-2"
@@ -35,9 +37,9 @@ export function RadiusControl({
         onValueChange={([v]) => onChange(v)}
         disabled={disabled}
         aria-labelledby="radius-label"
-        aria-label="Alert distance in metres"
+        aria-label={t('Alert distance in metres')}
       />
-      <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Common alert distances">
+      <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label={t('Common alert distances')}>
         {presets.map((p) => (
           <button
             key={p}
@@ -45,11 +47,11 @@ export function RadiusControl({
             disabled={disabled}
             onClick={() => onChange(p)}
             className={cn(
-              'rounded-md border px-2 py-1 text-xs font-medium transition-colors',
-              p === value ? 'border-brand-600 bg-brand-50 text-brand-800' : 'border-line text-ink-muted hover:border-line-strong hover:text-ink',
+              'press rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors',
+              p === value ? 'border-brand-900 bg-brand-900 text-white' : 'border-line text-ink-muted hover:border-line-strong hover:text-ink',
             )}
           >
-            {p} m
+            {meters(p)}
           </button>
         ))}
       </div>

@@ -10,6 +10,8 @@ import { homeFor } from '@/features/auth/homeFor';
 import { usePublicConfig } from '@/features/appData';
 import { errorMessage } from '@/lib/api';
 import { useForm } from '@/lib/form';
+import { useI18n } from '@/lib/i18n';
+import { ArrowRight, Lock, Mail } from 'lucide-react';
 import { AuthLayout } from './AuthLayout';
 
 export function LoginPage() {
@@ -21,6 +23,7 @@ export function LoginPage() {
   const form = useForm({ email: '', password: '' });
   const [formError, setFormError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const { t } = useI18n();
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -40,30 +43,36 @@ export function LoginPage() {
 
   return (
     <AuthLayout
-      title="Sign in"
-      subtitle="Welcome back. Sign in to plan a journey or open your dashboard."
+      title={t('Sign in')}
+      subtitle={t('Welcome back. Sign in to plan a journey or open your dashboard.')}
       footer={
         config.registrationOpen ? (
-          <>New to BUSIFY? <Link to="/register" className="font-medium text-brand-700 hover:underline">Create a passenger account</Link></>
+          <>{t('New user?')} <Link to="/register" className="font-semibold text-ink underline underline-offset-4">{t('Register')}</Link></>
         ) : (
-          'New registrations are currently closed.'
+          t('New registrations are currently closed.')
         )
       }
     >
       <form onSubmit={onSubmit} noValidate className="space-y-4">
         {formError && <Callout tone="error">{formError}</Callout>}
-        <Field label="Email" error={form.errors.email}>
-          <Input type="email" autoComplete="email" inputMode="email" autoFocus {...form.bind('email')} />
+        <Field label={t('Email')} error={form.errors.email}>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-4 top-1/2 size-[18px] -translate-y-1/2 text-ink-subtle" aria-hidden />
+            <Input type="email" autoComplete="email" inputMode="email" autoFocus className="h-14 rounded-2xl pl-11 text-base" placeholder="name@busify.mn" {...form.bind('email')} />
+          </div>
         </Field>
-        <Field label="Password" error={form.errors.password}>
-          <Input type="password" autoComplete="current-password" {...form.bind('password')} />
+        <Field label={t('Password')} error={form.errors.password}>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-4 top-1/2 size-[18px] -translate-y-1/2 text-ink-subtle" aria-hidden />
+            <Input type="password" autoComplete="current-password" className="h-14 rounded-2xl pl-11 text-base" {...form.bind('password')} />
+          </div>
         </Field>
-        <Button type="submit" className="w-full" size="lg" loading={busy}>
-          Sign in
+        <Button type="submit" variant="accent" className="w-full" size="xl" loading={busy}>
+          {t('Sign in')} <ArrowRight aria-hidden />
         </Button>
         {config.demoMode && (
           <p className="text-xs text-ink-subtle">
-            Demo mode is on: the demonstration accounts listed in the README can sign in.
+            {t('Demo mode is on: the demonstration accounts listed in the README can sign in.')}
           </p>
         )}
       </form>

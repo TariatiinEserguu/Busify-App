@@ -17,6 +17,7 @@ import { api, errorMessage } from '@/lib/api';
 import { useForm } from '@/lib/form';
 import type { RouteDetail, Stop } from '@/lib/types';
 import { StopFormDialog } from './StopFormDialog';
+import { t } from '@/lib/i18n';
 
 const emptyRoute = {
   number: '',
@@ -148,7 +149,7 @@ export default function AdminRouteEditorPage() {
   if (!isNew && (routeQuery.isError || !routeQuery.data)) {
     return (
       <Page>
-        <EmptyState icon={MapPin} title="Route not found" action={<Button asChild variant="outline"><Link to="/admin/routes">Back to routes</Link></Button>}>
+        <EmptyState icon={MapPin} title={t('Route not found')} action={<Button asChild variant="outline"><Link to="/admin/routes">{t('Back to routes')}</Link></Button>}>
           {errorMessage(routeQuery.error, 'It may have been deleted.')}
         </EmptyState>
       </Page>
@@ -169,7 +170,7 @@ export default function AdminRouteEditorPage() {
           </div>
           <div className="ml-auto flex gap-2">
             <Button variant="outline" type="button" onClick={() => navigate('/admin/routes')}>
-              Cancel
+              {t('Cancel')}
             </Button>
             <Button type="submit" loading={busy}>
               {isNew ? 'Create route' : 'Save changes'}
@@ -177,36 +178,36 @@ export default function AdminRouteEditorPage() {
           </div>
         </header>
         {formError && <Callout tone="error" className="mb-4">{formError}</Callout>}
-        {stopsDirty && !isNew && <Callout tone="warning" className="mb-4">Stop order changed — press “Save changes” to apply it.</Callout>}
+        {stopsDirty && !isNew && <Callout tone="warning" className="mb-4">{t('Stop order changed — press “Save changes” to apply it.')}</Callout>}
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div className="space-y-6">
             <Panel>
-              <PanelHeader title="Details" />
+              <PanelHeader title={t('Details')} />
               <div className="grid gap-4 p-4 sm:grid-cols-2">
-                <Field label="Route number" error={form.errors.number} hint="Shown on the badge, e.g. 7 or 12A.">
+                <Field label={t('Route number')} error={form.errors.number} hint={t('Shown on the badge, e.g. 7 or 12A.')}>
                   <Input {...form.bind('number')} className="font-mono uppercase" />
                 </Field>
-                <Field label="Status" error={form.errors.status} hint="Only routes in service are visible to passengers.">
+                <Field label={t('Status')} error={form.errors.status} hint={t('Only routes in service are visible to passengers.')}>
                   <Select {...form.bind('status')}>
                     {ROUTE_STATUSES.map((s) => (
                       <option key={s} value={s}>
-                        {ROUTE_STATUS_LABELS[s]}
+                        {t(ROUTE_STATUS_LABELS[s])}
                       </option>
                     ))}
                   </Select>
                 </Field>
-                <Field label="Route name" error={form.errors.name} className="sm:col-span-2">
+                <Field label={t('Route name')} error={form.errors.name} className="sm:col-span-2">
                   <Input {...form.bind('name')} />
                 </Field>
-                <Field label="Description" optional error={form.errors.description} className="sm:col-span-2">
+                <Field label={t('Description')} optional error={form.errors.description} className="sm:col-span-2">
                   <Textarea rows={2} {...form.bind('description')} />
                 </Field>
-                <Field label="Colour" error={form.errors.color}>
+                <Field label={t('Colour')} error={form.errors.color}>
                   <div className="flex gap-2">
                     <input
                       type="color"
-                      aria-label="Pick colour"
+                      aria-label={t('Pick colour')}
                       value={/^#[0-9a-f]{6}$/i.test(form.values.color) ? form.values.color : '#1d41d8'}
                       onChange={(e) => form.set('color', e.target.value)}
                       className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-line-strong bg-surface p-1"
@@ -218,15 +219,15 @@ export default function AdminRouteEditorPage() {
             </Panel>
 
             <Panel>
-              <PanelHeader title="Schedule" description="Optional. Shown to passengers when choosing a route." />
+              <PanelHeader title={t('Schedule')} description={t('Optional. Shown to passengers when choosing a route.')} />
               <div className="grid gap-4 p-4 sm:grid-cols-3">
-                <Field label="First departure" error={form.errors.firstDeparture}>
+                <Field label={t('First departure')} error={form.errors.firstDeparture}>
                   <Input type="time" {...form.bind('firstDeparture')} />
                 </Field>
-                <Field label="Last departure" error={form.errors.lastDeparture}>
+                <Field label={t('Last departure')} error={form.errors.lastDeparture}>
                   <Input type="time" {...form.bind('lastDeparture')} />
                 </Field>
-                <Field label="Every (minutes)" error={form.errors.headwayMinutes}>
+                <Field label={t('Every (minutes)')} error={form.errors.headwayMinutes}>
                   <Input type="number" min={1} max={240} inputMode="numeric" {...form.bind('headwayMinutes')} />
                 </Field>
               </div>
@@ -246,7 +247,7 @@ export default function AdminRouteEditorPage() {
               />
               <div className="border-b border-line p-4">
                 <div className="flex gap-2">
-                  <Select value={addId} onChange={(e) => setAddId(e.target.value)} aria-label="Existing stop to add" disabled={available.length === 0}>
+                  <Select value={addId} onChange={(e) => setAddId(e.target.value)} aria-label={t('Existing stop to add')} disabled={available.length === 0}>
                     <option value="">{available.length === 0 ? 'All stops are on this route' : 'Add an existing stop…'}</option>
                     {available.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -265,14 +266,14 @@ export default function AdminRouteEditorPage() {
                       setAddId('');
                     }}
                   >
-                    Add
+                    {t('Add')}
                   </Button>
                 </div>
-                <p className="mt-2 text-xs text-ink-subtle">Tip: click a grey stop on the map to append it to the route.</p>
+                <p className="mt-2 text-xs text-ink-subtle">{t('Tip: click a grey stop on the map to append it to the route.')}</p>
               </div>
               {stops.length === 0 ? (
-                <EmptyState icon={MapPin} title="No stops on this route yet">
-                  Add existing stops from the list or the map, or create a new stop.
+                <EmptyState icon={MapPin} title={t('No stops on this route yet')}>
+                  {t('Add existing stops from the list or the map, or create a new stop.')}
                 </EmptyState>
               ) : (
                 <ol className="divide-y divide-line">
@@ -325,13 +326,13 @@ export default function AdminRouteEditorPage() {
                   if (s) addStop(s);
                 }}
                 fitKey={`${id}-${routeQuery.data ? 1 : 0}-${allStops.data ? 1 : 0}`}
-                ariaLabel="Route map"
+                ariaLabel={t('Route map')}
               />
             </Panel>
 
             {!isNew && routeQuery.data && (
               <Panel className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-                <p className="text-sm text-ink-muted">Deleting ends journeys tracking on this route. History is kept.</p>
+                <p className="text-sm text-ink-muted">{t('Deleting ends journeys tracking on this route. History is kept.')}</p>
                 <ConfirmDialog
                   trigger={
                     <Button type="button" variant="danger-outline">
@@ -339,17 +340,17 @@ export default function AdminRouteEditorPage() {
                     </Button>
                   }
                   title={`Delete route ${routeQuery.data.number}?`}
-                  description="This cannot be undone. To hide the route temporarily, set its status to Suspended instead."
-                  confirmLabel="Delete route"
+                  description={t('This cannot be undone. To hide the route temporarily, set its status to Suspended instead.')}
+                  confirmLabel={t('Delete route')}
                   destructive
                   onConfirm={async () => {
                     try {
                       await api.delete(`/routes/${routeQuery.data!.id}`);
                       await queryClient.invalidateQueries({ queryKey: ['routes'] });
-                      toast.success('Route deleted');
+                      toast.success(t('Route deleted'));
                       navigate('/admin/routes', { replace: true });
                     } catch (err) {
-                      toast.error('Could not delete the route', { description: errorMessage(err) });
+                      toast.error(t('Could not delete the route'), { description: errorMessage(err) });
                     }
                   }}
                 />

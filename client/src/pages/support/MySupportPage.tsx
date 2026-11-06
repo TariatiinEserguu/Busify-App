@@ -2,107 +2,135 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ChevronRight, LifeBuoy, Plus } from 'lucide-react';
-import { createTicketSchema, TICKET_CATEGORIES, TICKET_CATEGORY_LABELS, type TicketCategory } from '@busify/shared';
-import { Page } from '@/components/layout/AppShell';
-import { RouteBadge, TicketStatusBadge } from '@/components/domain';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { ChevronLeft, LifeBuoy } from 'lucide-react';
+import { createTicketSchema, type TicketCategory } from '@busify/shared';
+import { label, ticketStatusText } from '@/components/domain';
+import { PassengerPage } from '@/components/layout/AppShell';
+import { Chip } from '@/components/ui/controls';
 import { Callout, EmptyState, Skeleton } from '@/components/ui/feedback';
-import { Field } from '@/components/ui/field';
-import { Input, Select, Textarea } from '@/components/ui/input';
-import { PageHeader, Panel } from '@/components/ui/layout';
+import { Select, Textarea } from '@/components/ui/input';
 import { api, errorMessage } from '@/lib/api';
+import { t as tr, useI18n } from '@/lib/i18n';
 import { useForm } from '@/lib/form';
-import type { Journey, TicketDetail, TicketListPayload } from '@/lib/types';
-import { formatDate, timeAgo } from '@/lib/utils';
+import type { Journey, TicketDetail, TicketListPayload, TicketSummary } from '@/lib/types';
+import { cn, formatTime } from '@/lib/utils';
+
+/** Quick topics from the deck, each mapped to a ticket category. */
+const TOPICS: Array<{ id: string; label: string; category: TicketCategory }> = [
+  { id: 'alert', label: 'Alert did not come', category: 'APP_PROBLEM' },
+  { id: 'stop', label: 'Wrong stop location', category: 'ROUTE_DATA' },
+  { id: 'bus', label: 'Bus, driver', category: 'COMPLAINT' },
+  { id: 'app', label: 'App not working', category: 'APP_PROBLEM' },
+  { id: 'idea', label: 'Suggestion', category: 'FEEDBACK' },
+];
+
+/** Progress steps shown under each request. */
+function stage(tk: TicketSummary) {
+  if (tk.status === 'RESOLVED') return 4;
+  if (tk.escalated) return 3;
+  if (tk.status === 'IN_PROGRESS') return 2;
+  return 1;
+}
 
 export function MySupportPage() {
-  const [params, setParams] = useSearchParams();
-  const journeyParam = Number(params.get('journey')) || null;
-  const [open, setOpen] = useState(!!journeyParam);
+  const { t } = useI18n();
+  const navigate = useNavigate();
   const query = useQuery({
     queryKey: ['tickets', 'mine'],
     queryFn: () => api.get<TicketListPayload>('/support/tickets?pageSize=100'),
   });
 
   return (
-    <Page width="narrow">
-      <PageHeader
-        title="Help & feedback"
-        description="Report a problem, ask a question or send feedback. Our support team replies here."
-        actions={
-          <Button onClick={() => setOpen(true)}>
-            <Plus aria-hidden /> New request
-          </Button>
-        }
-      />
+    <PassengerPage>
+      <header className="flex items-center gap-3">
+        <button type="button" onClick={() => navigate(-1)} className="press flex size-11 items-center justify-center rounded-2xl bg-surface shadow-card" aria-label={t('Back')}>
+          <ChevronLeft className="size-5" aria-hidden />
+        </button>
+        <h1 className="text-[24px] font-semibold tracking-tight">{t('Feedback & complaints')}</h1>
+      </header>
 
+      <NewRequestCard />
+
+      <h2 className="eyebrow mt-8 px-1">{t('My requests')}</h2>
       {query.isLoading ? (
-        <Skeleton className="h-40" />
+        <Skeleton className="mt-3 h-40 rounded-card" />
       ) : query.isError ? (
-        <Callout tone="error" title="Could not load your requests">
+        <Callout tone="error" className="mt-3" title={t('Could not load your requests')}>
           {errorMessage(query.error)}
         </Callout>
       ) : query.data!.tickets.length === 0 ? (
-        <Panel>
-          <EmptyState icon={LifeBuoy} title="No support requests yet" action={<Button variant="outline" onClick={() => setOpen(true)}>Contact support</Button>}>
-            If an alert came too late, a stop is in the wrong place or anything else is off, let us know.
+        <div className="card mt-3">
+          <EmptyState icon={LifeBuoy} title={t('No support requests yet')}>
+            {t('If an alert came too late, a stop is in the wrong place or anything else is off, let us know.')}
           </EmptyState>
-        </Panel>
+        </div>
       ) : (
-        <Panel>
-          <ul className="divide-y divide-line">
-            {query.data!.tickets.map((t) => (
-              <li key={t.id}>
-                <Link to={`/support/${t.id}`} className="flex items-center gap-3 px-4 py-3.5 hover:bg-canvas">
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-ink">{t.subject}</p>
-                    <p className="mt-0.5 text-xs text-ink-subtle">
-                      #{t.id} · {TICKET_CATEGORY_LABELS[t.category]} · opened {formatDate(t.createdAt)} · updated {timeAgo(t.updatedAt)}
-                    </p>
+        <ul className="stagger mt-3 space-y-3">
+          {query.data!.tickets.map((tk, i) => {
+            const st = stage(tk);
+            return (
+              <li key={tk.id} style={{ ['--i' as string]: i }}>
+                <Link to={`/support/${tk.id}`} className="lift card block p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="font-bold leading-snug">
+                        #BF-{tk.id} · {tk.subject}
+                      </p>
+                      <p className="mt-0.5 text-xs text-ink-subtle">
+                        {formatTime(tk.createdAt)} · {tk.route ? `${tk.route.number} · ` : ''}
+                        {label.ticketCategory(tk.category)}
+                      </p>
+                    </div>
+                    <span className={cn('shrink-0 rounded-lg px-2 py-1 text-xs font-bold', tk.status === 'RESOLVED' ? 'bg-ok-soft text-ok' : 'bg-sunken', ticketStatusText(tk.status))}>
+                      {label.ticketStatus(tk.status)}
+                    </span>
                   </div>
-                  {t.route && <RouteBadge number={t.route.number} size="sm" />}
-                  <TicketStatusBadge status={t.status} />
-                  <ChevronRight className="size-4 text-ink-subtle" aria-hidden />
+                  <div className="mt-3 grid grid-cols-4 gap-1.5">
+                    {[t('Sent'), t('Registered'), t('Sent to admin'), t('Resolved')].map((name, k) => (
+                      <div key={name}>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-line">
+                          <div className={cn('h-full rounded-full bg-ok transition-[width] duration-700', k < st ? 'w-full' : 'w-0')} style={{ transitionDelay: `${k * 120}ms` }} />
+                        </div>
+                        <p className={cn('mt-1.5 text-[11px] leading-tight', k < st ? 'font-semibold text-ink' : 'text-ink-subtle')}>{name}</p>
+                      </div>
+                    ))}
+                  </div>
                 </Link>
               </li>
-            ))}
-          </ul>
-        </Panel>
+            );
+          })}
+        </ul>
       )}
-
-      <NewTicketDialog
-        open={open}
-        onOpenChange={(o) => {
-          setOpen(o);
-          if (!o && journeyParam) setParams({}, { replace: true });
-        }}
-        journeyId={journeyParam}
-      />
-    </Page>
+    </PassengerPage>
   );
 }
 
-function NewTicketDialog({ open, onOpenChange, journeyId }: { open: boolean; onOpenChange: (o: boolean) => void; journeyId: number | null }) {
+function NewRequestCard() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const form = useForm({ subject: '', description: '', category: 'COMPLAINT' as TicketCategory, journeyId: journeyId ? String(journeyId) : '' });
+  const [params] = useSearchParams();
+  const journeyParam = params.get('journey') ?? '';
+  const initialTopic = TOPICS.find((x) => x.id === params.get('topic')) ?? null;
+  const [topic, setTopic] = useState(initialTopic?.id ?? null);
+  const form = useForm({ description: '', journeyId: journeyParam });
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const journeys = useQuery({
     queryKey: ['journeys', 'history'],
     queryFn: async () => (await api.get<{ journeys: Journey[] }>('/journeys?limit=50')).journeys,
-    enabled: open,
   });
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setFormError(null);
+    const chosen = TOPICS.find((x) => x.id === topic);
+    if (!chosen) return setFormError(t('Choose what happened.'));
+    const j = journeys.data?.find((x) => String(x.id) === form.values.journeyId);
     const payload = {
-      subject: form.values.subject,
+      subject: j ? `${tr(chosen.label)} · ${j.routeNumber} → ${j.destinationName}` : tr(chosen.label),
       description: form.values.description,
-      category: form.values.category,
+      category: chosen.category,
       journeyId: form.values.journeyId ? Number(form.values.journeyId) : null,
     };
     const input = form.validate(createTicketSchema, payload);
@@ -111,9 +139,7 @@ function NewTicketDialog({ open, onOpenChange, journeyId }: { open: boolean; onO
     try {
       const res = await api.post<{ ticket: TicketDetail }>('/support/tickets', input);
       await queryClient.invalidateQueries({ queryKey: ['tickets'] });
-      toast.success('Request sent. We will reply here.');
-      onOpenChange(false);
-      form.setValues({ subject: '', description: '', category: 'COMPLAINT', journeyId: '' });
+      toast.success(t('Request sent. We will reply here.'));
       navigate(`/support/${res.ticket.id}`);
     } catch (err) {
       if (!form.applyServerError(err)) setFormError(errorMessage(err));
@@ -123,50 +149,39 @@ function NewTicketDialog({ open, onOpenChange, journeyId }: { open: boolean; onO
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        title="New support request"
-        description="Describe what happened. Linking a trip helps support see the alert details."
-        footer={
-          <>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" form="new-ticket" loading={busy}>
-              Send request
-            </Button>
-          </>
-        }
-      >
-        <form id="new-ticket" onSubmit={onSubmit} noValidate className="space-y-4">
-          {formError && <Callout tone="error">{formError}</Callout>}
-          <Field label="Type" error={form.errors.category}>
-            <Select {...form.bind('category')}>
-              {TICKET_CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {TICKET_CATEGORY_LABELS[c]}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Subject" error={form.errors.subject}>
-            <Input placeholder="e.g. Alert rang too late near University Gate" {...form.bind('subject')} />
-          </Field>
-          <Field label="What happened?" error={form.errors.description} hint="Include the time, route and stop if you can.">
-            <Textarea rows={5} {...form.bind('description')} />
-          </Field>
-          <Field label="Related trip" optional error={form.errors.journeyId}>
-            <Select {...form.bind('journeyId')}>
-              <option value="">No specific trip</option>
-              {(journeys.data ?? []).map((j) => (
-                <option key={j.id} value={j.id}>
-                  {formatDate(j.startedAt)} · {j.routeNumber} to {j.destinationName}
-                </option>
-              ))}
-            </Select>
-          </Field>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <form onSubmit={onSubmit} noValidate className="card mt-5 space-y-4 p-4 animate-slide-up">
+      {formError && <Callout tone="error">{formError}</Callout>}
+      <div>
+        <p className="mb-2 text-sm font-semibold text-ink-muted">{t('What happened?')}</p>
+        <div className="flex flex-wrap gap-2">
+          {TOPICS.map((x) => (
+            <Chip key={x.id} active={topic === x.id} onClick={() => setTopic(x.id)} className="h-9 px-3.5 text-[13px]">
+              {t(x.label)}
+            </Chip>
+          ))}
+        </div>
+      </div>
+      <label className="block rounded-xl bg-sunken px-3 py-2">
+        <span className="block text-xs font-semibold text-ink-muted">{t('Related trip')}</span>
+        <Select {...form.bind('journeyId')} className="h-8 border-0 bg-transparent px-0 font-bold hover:border-0 focus:ring-0">
+          <option value="">{t('No specific trip')}</option>
+          {(journeys.data ?? []).map((j) => (
+            <option key={j.id} value={j.id}>
+              {j.routeNumber} → {j.destinationName} · {formatTime(j.startedAt)}
+            </option>
+          ))}
+        </Select>
+      </label>
+      <div>
+        <label htmlFor="ticket-details" className="mb-1.5 block text-sm font-semibold text-ink-muted">
+          {t('Details')}
+        </label>
+        <Textarea id="ticket-details" rows={4} aria-invalid={!!form.errors.description || undefined} placeholder={t('Include the time, route and stop if you can.')} {...form.bind('description')} />
+        {(form.errors.description || form.errors.subject) && <p className="mt-1 text-xs font-medium text-bad">{t(form.errors.description ?? form.errors.subject)}</p>}
+      </div>
+      <button type="submit" disabled={busy} className="press h-14 w-full rounded-2xl bg-brand-900 text-base font-bold text-white transition-colors hover:bg-brand-700 disabled:opacity-60">
+        {busy ? t('Sending…') : t('Send')}
+      </button>
+    </form>
   );
 }

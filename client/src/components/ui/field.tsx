@@ -1,4 +1,5 @@
 import { cloneElement, isValidElement, useId, type ReactElement, type ReactNode } from 'react';
+import { t } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 interface FieldProps {
@@ -26,9 +27,9 @@ export function Field({ label, error, hint, className, children, optional }: Fie
     : children;
   return (
     <div className={cn('space-y-1.5', className)}>
-      <label htmlFor={(children.props.id as string | undefined) ?? id} className="block text-sm font-medium text-ink">
+      <label htmlFor={(children.props.id as string | undefined) ?? id} className={cn('block text-sm font-semibold', error ? 'text-bad' : 'text-ink')}>
         {label}
-        {optional && <span className="ml-1 font-normal text-ink-subtle">(optional)</span>}
+        {optional && <span className="ml-1 font-normal text-ink-subtle">({t('optional')})</span>}
       </label>
       {control}
       {hint && !error && (
@@ -37,8 +38,8 @@ export function Field({ label, error, hint, className, children, optional }: Fie
         </p>
       )}
       {error && (
-        <p id={errorId} className="text-xs font-medium text-red-600" role="alert">
-          {error}
+        <p id={errorId} className="text-xs font-medium text-bad animate-fade-in" role="alert">
+          {t(error)}
         </p>
       )}
     </div>

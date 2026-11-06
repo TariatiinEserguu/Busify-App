@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Dialog as D } from 'radix-ui';
 import { X } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 export const Dialog = D.Root;
@@ -18,30 +19,31 @@ interface DialogContentProps {
 }
 
 export function DialogContent({ title, description, children, footer, className, variant = 'center' }: DialogContentProps) {
+  const { t } = useI18n();
   return (
     <D.Portal>
-      <D.Overlay className="fixed inset-0 z-[1000] bg-slate-950/40 animate-fade-in" />
+      <D.Overlay className="fixed inset-0 z-[1000] bg-brand-950/45 backdrop-blur-[2px] animate-fade-in" />
       <D.Content
         className={cn(
           'fixed z-[1001] flex flex-col bg-surface shadow-2xl focus:outline-none',
           variant === 'center'
-            ? 'left-1/2 top-1/2 max-h-[min(90vh,820px)] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-card animate-slide-up'
-            : 'inset-y-0 right-0 w-full max-w-xl animate-fade-in',
+            ? 'left-1/2 top-1/2 max-h-[min(90vh,820px)] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-card animate-pop-in'
+            : 'inset-y-0 right-0 w-full max-w-xl animate-[slide-in-right_380ms_var(--ease-out-soft)_both] sm:rounded-l-card',
           className,
         )}
       >
         <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
           <div className="min-w-0">
-            <D.Title className="text-base font-semibold text-ink">{title}</D.Title>
+            <D.Title className="text-lg font-semibold tracking-tight text-ink">{title}</D.Title>
             {description ? (
               <D.Description className="mt-0.5 text-sm text-ink-muted">{description}</D.Description>
             ) : (
-              <D.Description className="sr-only">{typeof title === 'string' ? title : 'Dialog'}</D.Description>
+              <D.Description className="sr-only">{typeof title === 'string' ? title : t('Dialog')}</D.Description>
             )}
           </div>
           <D.Close
-            className="-mr-1 rounded-md p-1.5 text-ink-subtle hover:bg-slate-100 hover:text-ink"
-            aria-label="Close"
+            className="-mr-1 rounded-lg p-1.5 text-ink-subtle transition-colors hover:bg-sunken hover:text-ink"
+            aria-label={t('Close')}
           >
             <X className="size-4" />
           </D.Close>

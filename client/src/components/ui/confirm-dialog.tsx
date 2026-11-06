@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { AlertDialog as A } from 'radix-ui';
+import { t } from '@/lib/i18n';
 import { Button } from './button';
 
 interface ConfirmDialogProps {
@@ -17,8 +18,8 @@ export function ConfirmDialog({
   trigger,
   title,
   description,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel,
+  cancelLabel,
   destructive,
   onConfirm,
 }: ConfirmDialogProps) {
@@ -28,14 +29,14 @@ export function ConfirmDialog({
     <A.Root open={open} onOpenChange={(o) => !busy && setOpen(o)}>
       <A.Trigger asChild>{trigger}</A.Trigger>
       <A.Portal>
-        <A.Overlay className="fixed inset-0 z-[1000] bg-slate-950/40 animate-fade-in" />
-        <A.Content className="fixed left-1/2 top-1/2 z-[1001] w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-card bg-surface p-5 shadow-2xl animate-slide-up focus:outline-none">
-          <A.Title className="text-base font-semibold text-ink">{title}</A.Title>
+        <A.Overlay className="fixed inset-0 z-[1000] bg-brand-950/45 backdrop-blur-[2px] animate-fade-in" />
+        <A.Content className="fixed left-1/2 top-1/2 z-[1001] w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-card bg-surface p-6 shadow-2xl animate-pop-in focus:outline-none">
+          <A.Title className="text-lg font-semibold tracking-tight text-ink">{title}</A.Title>
           <A.Description className="mt-2 text-sm leading-relaxed text-ink-muted">{description}</A.Description>
           <div className="mt-5 flex flex-wrap justify-end gap-2">
             <A.Cancel asChild>
               <Button variant="outline" disabled={busy}>
-                {cancelLabel}
+                {cancelLabel ?? t('Cancel')}
               </Button>
             </A.Cancel>
             <Button
@@ -51,7 +52,7 @@ export function ConfirmDialog({
                 }
               }}
             >
-              {confirmLabel}
+              {confirmLabel ?? t('Confirm')}
             </Button>
           </div>
         </A.Content>

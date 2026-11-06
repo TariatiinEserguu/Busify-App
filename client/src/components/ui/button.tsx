@@ -5,26 +5,30 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ' +
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 ' +
-    'disabled:pointer-events-none disabled:opacity-55 [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold ' +
+    'transition-[background-color,color,border-color,box-shadow,transform] duration-150 active:scale-[0.97] ' +
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-900 ' +
+    'disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        primary: 'bg-brand-700 text-white shadow-sm hover:bg-brand-800 active:bg-brand-900',
-        secondary: 'bg-brand-50 text-brand-800 hover:bg-brand-100',
-        outline: 'border border-line-strong bg-surface text-ink hover:bg-canvas',
-        ghost: 'text-ink-muted hover:bg-slate-100 hover:text-ink',
-        danger: 'bg-red-600 text-white shadow-sm hover:bg-red-700',
-        'danger-outline': 'border border-red-200 bg-surface text-red-700 hover:bg-red-50',
-        link: 'h-auto px-0 text-brand-700 underline-offset-4 hover:underline',
+        primary: 'bg-brand-900 text-white shadow-sm hover:bg-brand-700',
+        accent: 'bg-accent-400 text-brand-900 shadow-sm hover:bg-accent-300 hover:shadow-glow',
+        secondary: 'bg-sunken text-ink hover:bg-line',
+        outline: 'border border-line-strong bg-surface text-ink hover:border-brand-300 hover:bg-canvas',
+        ghost: 'text-ink-muted hover:bg-sunken hover:text-ink',
+        danger: 'bg-bad text-white shadow-sm hover:bg-red-700',
+        'danger-outline': 'border-[1.5px] border-bad/80 bg-surface text-bad hover:bg-bad-soft',
+        success: 'bg-ok text-white shadow-sm hover:bg-emerald-700',
+        link: 'h-auto px-0 text-info underline underline-offset-4 hover:text-brand-900',
       },
       size: {
-        sm: 'h-8 px-3 text-[13px]',
+        sm: 'h-8 rounded-lg px-3 text-[13px]',
         md: 'h-10 px-4',
-        lg: 'h-12 px-5 text-base',
-        icon: 'size-9',
-        'icon-sm': 'size-8',
+        lg: 'h-12 px-5 text-[15px]',
+        xl: 'h-14 rounded-2xl px-6 text-base [&_svg]:size-5',
+        icon: 'size-10',
+        'icon-sm': 'size-8 rounded-lg',
       },
     },
     defaultVariants: { variant: 'primary', size: 'md' },

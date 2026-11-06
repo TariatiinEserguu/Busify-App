@@ -14,6 +14,7 @@ import { api, errorMessage } from '@/lib/api';
 import type { Stop } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { StopFormDialog } from './StopFormDialog';
+import { t } from '@/lib/i18n';
 
 export default function AdminStopsPage() {
   const queryClient = useQueryClient();
@@ -44,15 +45,15 @@ export default function AdminStopsPage() {
       await queryClient.invalidateQueries({ queryKey: ['routes'] });
       toast.success(`Deleted ${stop.name}`);
     } catch (err) {
-      toast.error('Could not delete the stop', { description: errorMessage(err) });
+      toast.error(t('Could not delete the stop'), { description: errorMessage(err) });
     }
   }
 
   return (
     <Page width="wide">
       <PageHeader
-        title="Stops"
-        description="Every bus stop with its exact coordinates. Alerts are measured against these positions, so keep them accurate."
+        title={t('Stops')}
+        description={t('Every bus stop with its exact coordinates. Alerts are measured against these positions, so keep them accurate.')}
         actions={
           <Button onClick={() => openEditor(null)}>
             <Plus aria-hidden /> New stop
@@ -64,7 +65,7 @@ export default function AdminStopsPage() {
         <div className="min-w-0">
           <div className="relative mb-3">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-subtle" aria-hidden />
-            <Input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search stops by name or code" className="pl-9" aria-label="Search stops" />
+            <Input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('Search stops by name or code')} className="pl-9" aria-label={t('Search stops')} />
           </div>
           <Panel>
             {query.isLoading ? (
@@ -78,7 +79,7 @@ export default function AdminStopsPage() {
                 <Callout tone="error">{errorMessage(query.error)}</Callout>
               </div>
             ) : stops.length === 0 ? (
-              <EmptyState icon={MapPin} title={search ? 'No stops match' : 'No stops yet'} action={!search && <Button variant="outline" onClick={() => openEditor(null)}>Add the first stop</Button>}>
+              <EmptyState icon={MapPin} title={search ? 'No stops match' : 'No stops yet'} action={!search && <Button variant="outline" onClick={() => openEditor(null)}>{t('Add the first stop')}</Button>}>
                 {search ? 'Try another name or code.' : 'Add stops with their real coordinates, then attach them to routes.'}
               </EmptyState>
             ) : (
@@ -106,7 +107,7 @@ export default function AdminStopsPage() {
                           ))}
                         </div>
                       ) : (
-                        <p className="mt-1 text-xs text-amber-700">Not on any route</p>
+                        <p className="mt-1 text-xs text-amber-700">{t('Not on any route')}</p>
                       )}
                     </div>
                     <Button variant="ghost" size="icon-sm" aria-label={`Edit ${s.name}`} onClick={() => openEditor(s)}>
@@ -124,7 +125,7 @@ export default function AdminStopsPage() {
                           ? `It will be removed from ${s.routes.length} route(s) (${s.routes.map((r) => r.number).join(', ')}) and the remaining stops renumbered. Past journeys keep their history.`
                           : 'This stop is not used by any route. Past journeys keep their history.'
                       }
-                      confirmLabel="Delete stop"
+                      confirmLabel={t('Delete stop')}
                       destructive
                       onConfirm={() => remove(s)}
                     />
@@ -145,7 +146,7 @@ export default function AdminStopsPage() {
               if (s) openEditor(s);
             }}
             fitKey={`stops-${query.data?.length ?? 0}-${search}`}
-            ariaLabel="Map of all stops"
+            ariaLabel={t('Map of all stops')}
           />
         </Panel>
       </div>

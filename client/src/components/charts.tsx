@@ -6,6 +6,7 @@
  */
 import { useId, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 /** Categorical slot 1 of the reference data-viz palette. */
 const SERIES = '#2a78d6';
@@ -122,7 +123,7 @@ export function ColumnChart({ title, data, measure, height = 150, className, dim
           <table className="w-full text-xs">
             <thead className="sticky top-0 bg-canvas">
               <tr>
-                <th className="px-3 py-1.5 text-left font-medium text-ink-subtle">Day</th>
+                <th className="px-3 py-1.5 text-left font-medium text-ink-subtle">{t('Day')}</th>
                 <th className="px-3 py-1.5 text-right font-medium text-ink-subtle">{measure}</th>
               </tr>
             </thead>

@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { cn, isoDay } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 export interface DateRange {
   from: string;
@@ -26,7 +27,7 @@ export function DateRangeFilter({ value, onChange }: { value: DateRange; onChang
     return r.from === value.from && r.to === value.to;
   });
   return (
-    <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Report period">
+    <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t('Report period')}>
       <div className="inline-flex rounded-lg border border-line bg-surface p-1">
         {PRESETS.map((p) => (
           <button
@@ -50,7 +51,7 @@ export function DateRangeFilter({ value, onChange }: { value: DateRange; onChang
           value={value.from}
           max={value.to}
           onChange={(e) => e.target.value && onChange({ ...value, from: e.target.value })}
-          aria-label="From date"
+          aria-label={t('From date')}
         />
         <span aria-hidden>–</span>
         <Input
@@ -60,7 +61,7 @@ export function DateRangeFilter({ value, onChange }: { value: DateRange; onChang
           min={value.from}
           max={isoDay(new Date())}
           onChange={(e) => e.target.value && onChange({ ...value, to: e.target.value })}
-          aria-label="To date"
+          aria-label={t('To date')}
         />
       </div>
     </div>

@@ -7,36 +7,76 @@
   --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', 'Consolas', monospace;
 
-  /* Brand: a transit blue, used for primary actions, the active route and focus. */
-  --color-brand-50: #eff5ff;
-  --color-brand-100: #dbe8fe;
-  --color-brand-200: #bfd5fe;
-  --color-brand-300: #93b8fd;
-  --color-brand-400: #6093fa;
-  --color-brand-500: #3b6ef6;
-  --color-brand-600: #2553eb;
-  --color-brand-700: #1d41d8;
-  --color-brand-800: #1e37af;
-  --color-brand-900: #1e338a;
-  --color-brand-950: #172154;
+  /* Brand: deep night navy — primary actions, the dark cards and the staff sidebar. */
+  --color-brand-50: #f2f3f7;
+  --color-brand-100: #e3e5ee;
+  --color-brand-200: #c6cadb;
+  --color-brand-300: #9ca3bf;
+  --color-brand-400: #6b7499;
+  --color-brand-500: #474f73;
+  --color-brand-600: #2e3657;
+  --color-brand-700: #1c2340;
+  --color-brand-800: #151b35;
+  --color-brand-900: #10162c;
+  --color-brand-950: #0a0e1d;
 
-  /* Surfaces and text (cool neutrals). */
-  --color-canvas: #f5f7fa;
+  /* Accent: bus-sign amber — the alert, the active tab, the main call to action. */
+  --color-accent-50: #fff8e6;
+  --color-accent-100: #ffefc2;
+  --color-accent-200: #ffe08a;
+  --color-accent-300: #ffd15c;
+  --color-accent-400: #ffc233;
+  --color-accent-500: #f5ad0a;
+  --color-accent-600: #d68c00;
+  --color-accent-700: #a86a00;
+  --color-accent-800: #7a4c00;
+  --color-accent-900: #4d3000;
+
+  /* Surfaces and text (warm neutrals). */
+  --color-canvas: #f3f4ef;
   --color-surface: #ffffff;
-  --color-line: #e3e8ef;
-  --color-line-strong: #cdd5e0;
-  --color-ink: #0f1a2b;
-  --color-ink-muted: #4a5568;
-  --color-ink-subtle: #6b7789;
+  --color-sunken: #f1f2ec;
+  --color-line: #e7e8e2;
+  --color-line-strong: #d6d8cf;
+  --color-ink: #10162c;
+  --color-ink-muted: #4b5263;
+  --color-ink-subtle: #7a8090;
 
-  --radius-card: 0.875rem;
+  /* Status colours used by the deck: "Хэвийн" green, warnings, errors. */
+  --color-ok: #1e8a52;
+  --color-ok-soft: #e4f4ea;
+  --color-warn: #8a5a00;
+  --color-warn-soft: #fff4d6;
+  --color-bad: #c0352b;
+  --color-bad-soft: #fde8e6;
+  --color-info: #1d4ed8;
+  --color-info-soft: #e8eefb;
 
-  --animate-alert-ring: alert-ring 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
-  --animate-fade-in: fade-in 160ms ease-out;
-  --animate-slide-up: slide-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --radius-card: 1.25rem;
+  --radius-tile: 0.875rem;
+
+  --shadow-card: 0 1px 2px rgb(16 22 44 / 0.04), 0 1px 1px rgb(16 22 44 / 0.02);
+  --shadow-float: 0 12px 32px -8px rgb(16 22 44 / 0.18), 0 2px 6px rgb(16 22 44 / 0.06);
+  --shadow-glow: 0 10px 30px -6px rgb(255 194 51 / 0.55);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-alert-ring: alert-ring 1.8s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  --animate-fade-in: fade-in 200ms ease-out;
+  --animate-slide-up: slide-up 320ms var(--ease-out-soft) both;
+  --animate-page-in: page-in 380ms var(--ease-out-soft) both;
+  --animate-sheet-up: sheet-up 460ms var(--ease-out-soft) both;
+  --animate-pop-in: pop-in 420ms var(--ease-spring) both;
+  --animate-bell: bell 1.4s ease-in-out infinite;
+  --animate-radar: radar 2.8s ease-out infinite;
+  --animate-float: float 3.2s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-dash: dash 1.2s linear infinite;
+  --animate-blink: blink 1.6s ease-in-out infinite;
 
   @keyframes alert-ring {
-    0% { transform: scale(0.9); opacity: 0.55; }
+    0% { transform: scale(0.85); opacity: 0.6; }
     100% { transform: scale(1.9); opacity: 0; }
   }
   @keyframes fade-in {
@@ -44,8 +84,60 @@
     to { opacity: 1; }
   }
   @keyframes slide-up {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+  /* Opacity only: a transform here would trap position:fixed children (tab bar, CTAs). */
+  @keyframes page-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes sheet-up {
+    from { opacity: 0.4; transform: translateY(48px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes slide-in-left {
+    from { opacity: 0.6; transform: translateX(-40px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes slide-in-right {
+    from { opacity: 0.6; transform: translateX(40px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes grow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  @keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.6); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes bell {
+    0%, 55%, 100% { transform: rotate(0); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-12deg); }
+    30% { transform: rotate(9deg); }
+    40% { transform: rotate(-6deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes radar {
+    0% { transform: scale(0.4); opacity: 0.7; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -24; }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
   }
 }
 
@@ -58,13 +150,62 @@
     font-feature-settings: 'tnum' 0;
   }
   ::selection {
-    @apply bg-brand-100 text-brand-950;
+    @apply bg-accent-200 text-brand-950;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-600;
+    @apply outline-2 outline-offset-2 outline-brand-900;
   }
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* White rounded card used across the deck. */
+  .card {
+    @apply rounded-card bg-surface shadow-card;
+  }
+  /* Dark navy hero card ("Идэвхтэй аялал", profile header, KPI highlight). */
+  .card-ink {
+    @apply rounded-card bg-brand-900 text-white;
+  }
+  /* Small uppercase section label. */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-subtle;
+  }
+  /* Children animate in one after another; set --i on each child. */
+  .stagger > * {
+    animation: slide-up 420ms var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  /* Gentle lift for clickable cards. */
+  .lift {
+    transition: transform 220ms var(--ease-out-soft), box-shadow 220ms var(--ease-out-soft), background-color 160ms;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-float);
+  }
+  .lift:active {
+    transform: translateY(0) scale(0.99);
+  }
+  /* Press feedback for buttons and tiles. */
+  .press {
+    transition: transform 140ms var(--ease-out-soft);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, rgb(16 22 44 / 0.06) 25%, rgb(16 22 44 / 0.11) 37%, rgb(16 22 44 / 0.06) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -74,32 +215,113 @@
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
 }
 
-/* ---- Leaflet customisation ------------------------------------------------ */
+/* ---- Leaflet: a calm, light map ------------------------------------------- */
 .leaflet-container {
   font-family: var(--font-sans);
-  background: #e8edf3;
+  background: #eef0ea;
+}
+/* Mute the basemap so the route and stops carry the colour. */
+.busify-map .leaflet-tile-pane {
+  filter: saturate(0.55) contrast(0.96) brightness(1.02);
 }
 .leaflet-control-attribution {
   font-size: 10px;
+  background: rgb(255 255 255 / 0.75) !important;
+  border-radius: 8px 0 0 0;
+  padding: 0 6px !important;
+  color: var(--color-ink-subtle) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-ink-muted) !important;
 }
 .leaflet-tooltip.busify-tooltip {
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgb(15 26 43 / 0.12);
-  color: var(--color-ink);
+  border: 0;
+  border-radius: 9999px;
+  background: var(--color-brand-900);
+  box-shadow: 0 6px 16px rgb(16 22 44 / 0.25);
+  color: #fff;
   font-size: 12px;
-  font-weight: 500;
-  padding: 3px 8px;
+  font-weight: 600;
+  padding: 4px 10px;
+  white-space: nowrap;
 }
 .leaflet-tooltip.busify-tooltip::before {
   display: none;
 }
+.leaflet-tooltip.busify-tooltip-light {
+  border: 0;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(16 22 44 / 0.16);
+  color: var(--color-ink);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 9px;
+}
+.leaflet-tooltip.busify-tooltip-light::before {
+  display: none;
+}
 
-/* Passenger position: a blue dot with a soft pulse. */
+/* Route line: drawn in on first paint, with a soft casing underneath. */
+.busify-route-line {
+  stroke-dasharray: 6000;
+  stroke-dashoffset: 6000;
+  animation: route-draw 1.4s var(--ease-out-soft) forwards;
+}
+@keyframes route-draw {
+  to { stroke-dashoffset: 0; }
+}
+.busify-route-casing {
+  filter: drop-shadow(0 2px 3px rgb(16 22 44 / 0.18));
+}
+.busify-alert-zone {
+  animation: zone-breathe 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes zone-breathe {
+  0%, 100% { fill-opacity: 0.16; }
+  50% { fill-opacity: 0.28; }
+}
+
+/* Passenger position: the bus badge from the deck (navy tile, white bus). */
+.busify-bus {
+  position: relative;
+  width: 34px;
+  height: 34px;
+}
+.busify-bus::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 14px;
+  background: rgb(16 22 44 / 0.22);
+  animation: alert-ring 2.2s ease-out infinite;
+}
+.busify-bus .tile {
+  position: absolute;
+  inset: 0;
+  border-radius: 11px;
+  background: var(--color-brand-900);
+  border: 2.5px solid #fff;
+  box-shadow: 0 4px 12px rgb(16 22 44 / 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.busify-bus.is-simulated .tile {
+  background: #6d28d9;
+}
+.busify-bus.is-simulated::before {
+  background: rgb(109 40 217 / 0.25);
+}
+
+/* Plain "you are here" dot (planning, before a journey). */
 .busify-user-dot {
   position: relative;
   width: 18px;
@@ -110,7 +332,7 @@
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  background: rgb(37 83 235 / 0.35);
+  background: rgb(16 22 44 / 0.3);
   animation: alert-ring 2s ease-out infinite;
 }
 .busify-user-dot::after {
@@ -118,18 +340,48 @@
   position: absolute;
   inset: 3px;
   border-radius: 9999px;
-  background: var(--color-brand-600);
+  background: var(--color-brand-900);
   border: 2px solid white;
-  box-shadow: 0 1px 4px rgb(15 26 43 / 0.35);
-}
-.busify-user-dot.is-simulated::after {
-  background: #7c3aed;
-}
-.busify-user-dot.is-simulated::before {
-  background: rgb(124 58 237 / 0.3);
+  box-shadow: 0 1px 4px rgb(16 22 44 / 0.35);
 }
 
-/* Destination stop: a pin with a flag. */
-.busify-destination-pin {
-  filter: drop-shadow(0 2px 3px rgb(15 26 43 / 0.35));
+/* Destination: amber disc with a check, as in the deck. */
+.busify-destination {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+.busify-destination::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: rgb(255 194 51 / 0.45);
+  animation: alert-ring 2.4s ease-out infinite;
+}
+.busify-destination .disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--color-accent-400);
+  border: 3px solid var(--color-brand-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgb(16 22 44 / 0.3);
+  animation: pop-in 520ms var(--ease-spring) both;
+}
+
+.busify-picker-pin {
+  filter: drop-shadow(0 3px 4px rgb(16 22 44 / 0.35));
+}
+
+/* Printing a report: hide navigation, keep the content. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
 }

@@ -28,3 +28,9 @@ Thumbs.db
 coverage/
 .vscode/*
 !.vscode/extensions.json
+
+# AI assistant files
+.claude/
+CLAUDE.md
+.claude.json
+.mcp.json

@@ -18,12 +18,13 @@ import { useForm } from '@/lib/form';
 import type { SessionPayload, User } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
 import { RadiusControl } from './journey/RadiusControl';
+import { t } from '@/lib/i18n';
 
 export function SettingsPage() {
   const { can } = useAuth();
   return (
     <Page width="narrow">
-      <PageHeader title="Settings" description="Alert preferences, location access and your account." />
+      <PageHeader title={t('Settings')} description={t('Alert preferences, location access and your account.')} />
       <div className="space-y-6">
         {can('journeys:use') && <AlertSettings />}
         {can('journeys:use') && <LocationSettings />}
@@ -76,7 +77,7 @@ function AlertSettings() {
 
   return (
     <Panel>
-      <PanelHeader title="Stop alert" description="Used for new journeys. You can also change the distance during a journey." />
+      <PanelHeader title={t('Stop alert')} description={t('Used for new journeys. You can also change the distance during a journey.')} />
       <div className="border-b border-line px-4 py-4">
         <RadiusControl
           value={draft.alertRadiusM}
@@ -89,17 +90,17 @@ function AlertSettings() {
         </p>
       </div>
       <div className="divide-y divide-line">
-        <Row title="Sound" description="A repeating chime until you dismiss the alert.">
-          <Switch checked={draft.soundEnabled} onCheckedChange={(v) => setDraft({ ...draft, soundEnabled: v })} aria-label="Sound" />
+        <Row title={t('Sound')} description={t('A repeating chime until you dismiss the alert.')}>
+          <Switch checked={draft.soundEnabled} onCheckedChange={(v) => setDraft({ ...draft, soundEnabled: v })} aria-label={t('Sound')} />
         </Row>
         <Row
-          title="Vibration"
+          title={t('Vibration')}
           description={capabilities.vibration() ? 'Vibrates the phone with the alert.' : 'Not supported by this browser (e.g. iPhone Safari).'}
         >
-          <Switch checked={draft.vibrationEnabled} onCheckedChange={(v) => setDraft({ ...draft, vibrationEnabled: v })} aria-label="Vibration" />
+          <Switch checked={draft.vibrationEnabled} onCheckedChange={(v) => setDraft({ ...draft, vibrationEnabled: v })} aria-label={t('Vibration')} />
         </Row>
         <Row
-          title="System notification"
+          title={t('System notification')}
           description={
             notificationState === 'unsupported'
               ? 'Needs a secure (https or localhost) page and a browser that supports notifications.'
@@ -117,26 +118,26 @@ function AlertSettings() {
                 variant="outline"
                 onClick={async () => setNotificationState(await requestNotificationPermission())}
               >
-                Allow
+                {t('Allow')}
               </Button>
             )}
             <Switch
               checked={draft.notificationsEnabled}
               onCheckedChange={(v) => setDraft({ ...draft, notificationsEnabled: v })}
-              aria-label="System notification"
+              aria-label={t('System notification')}
             />
           </div>
         </Row>
-        <Row title="Keep screen awake" description="Stops the screen from locking while a journey is tracked (helps GPS keep running).">
-          <Switch checked={draft.keepScreenAwake} onCheckedChange={(v) => setDraft({ ...draft, keepScreenAwake: v })} aria-label="Keep screen awake" />
+        <Row title={t('Keep screen awake')} description={t('Stops the screen from locking while a journey is tracked (helps GPS keep running).')}>
+          <Switch checked={draft.keepScreenAwake} onCheckedChange={(v) => setDraft({ ...draft, keepScreenAwake: v })} aria-label={t('Keep screen awake')} />
         </Row>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-4 py-3">
         <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs">
-          <Supported ok={capabilities.sound()} label="Sound" />
-          <Supported ok={capabilities.vibration()} label="Vibration" />
-          <Supported ok={capabilities.notifications()} label="Notifications" />
-          <Supported ok={capabilities.wakeLock()} label="Screen wake lock" />
+          <Supported ok={capabilities.sound()} label={t('Sound')} />
+          <Supported ok={capabilities.vibration()} label={t('Vibration')} />
+          <Supported ok={capabilities.notifications()} label={t('Notifications')} />
+          <Supported ok={capabilities.wakeLock()} label={t('Screen wake lock')} />
         </div>
         <div className="flex gap-2">
           <Button
@@ -161,13 +162,13 @@ function AlertSettings() {
                   keepScreenAwake: draft.keepScreenAwake,
                 },
                 {
-                  onSuccess: () => toast.success('Alert settings saved'),
-                  onError: (err) => toast.error('Could not save settings', { description: errorMessage(err) }),
+                  onSuccess: () => toast.success(t('Alert settings saved')),
+                  onError: (err) => toast.error(t('Could not save settings'), { description: errorMessage(err) }),
                 },
               )
             }
           >
-            Save
+            {t('Save')}
           </Button>
         </div>
       </div>
@@ -188,7 +189,7 @@ function LocationSettings() {
   };
   return (
     <Panel>
-      <PanelHeader title="Location access" description="BUSIFY needs your position to know when you are near your stop." />
+      <PanelHeader title={t('Location access')} description={t('BUSIFY needs your position to know when you are near your stop.')} />
       <div className="space-y-4 px-4 py-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm">
@@ -199,21 +200,21 @@ function LocationSettings() {
           </Button>
         </div>
         {check.state === 'ok' && check.position && (
-          <Callout tone="success" title="Location works">
+          <Callout tone="success" title={t('Location works')}>
             Found your position {check.position.accuracyM ? `with ±${Math.round(check.position.accuracyM)} m accuracy` : ''}. Stop
             alerts will work on this device.
           </Callout>
         )}
-        {(permission === 'denied' || check.state === 'denied') && <Callout tone="warning" title="Location is blocked">{GPS_HELP.denied}</Callout>}
-        {permission === 'insecure' && <Callout tone="warning" title="Secure connection needed">{GPS_HELP.insecure}</Callout>}
+        {(permission === 'denied' || check.state === 'denied') && <Callout tone="warning" title={t('Location is blocked')}>{GPS_HELP.denied}</Callout>}
+        {permission === 'insecure' && <Callout tone="warning" title={t('Secure connection needed')}>{GPS_HELP.insecure}</Callout>}
         {permission === 'unsupported' && <Callout tone="warning">{GPS_HELP.unsupported}</Callout>}
         {check.state === 'error' && <Callout tone="warning">{check.message}</Callout>}
         <div className="rounded-lg bg-canvas px-3 py-3 text-xs leading-relaxed text-ink-muted">
-          <p className="font-medium text-ink">How to allow location</p>
+          <p className="font-medium text-ink">{t('How to allow location')}</p>
           <ul className="mt-1 list-disc space-y-0.5 pl-4">
-            <li>Chrome / Edge: click the icon left of the address bar → Site settings → Location → Allow.</li>
-            <li>Android: also turn on Location in the phone’s quick settings.</li>
-            <li>iPhone: Settings → Privacy & Security → Location Services → Safari Websites → While Using.</li>
+            <li>{t('Chrome / Edge: click the icon left of the address bar → Site settings → Location → Allow.')}</li>
+            <li>{t('Android: also turn on Location in the phone’s quick settings.')}</li>
+            <li>{t('iPhone: Settings → Privacy & Security → Location Services → Safari Websites → While Using.')}</li>
           </ul>
           <p className="mt-2">
             Your position is used in the browser to measure the distance to your stop. It is sent to the BUSIFY server only
@@ -239,9 +240,9 @@ function AccountSettings() {
     try {
       const res = await api.patch<{ user: User }>('/me/profile', input);
       setSession({ user: res.user, permissions });
-      toast.success('Profile updated');
+      toast.success(t('Profile updated'));
     } catch (err) {
-      if (!form.applyServerError(err)) toast.error('Could not update profile', { description: errorMessage(err) });
+      if (!form.applyServerError(err)) toast.error(t('Could not update profile'), { description: errorMessage(err) });
     } finally {
       setBusy(false);
     }
@@ -249,33 +250,33 @@ function AccountSettings() {
 
   return (
     <Panel>
-      <PanelHeader title="Account" />
+      <PanelHeader title={t('Account')} />
       <form onSubmit={onSubmit} noValidate className="space-y-4 px-4 py-4">
         <dl className="grid gap-3 text-sm sm:grid-cols-3">
           <div>
-            <dt className="text-xs text-ink-subtle">Email</dt>
+            <dt className="text-xs text-ink-subtle">{t('Email')}</dt>
             <dd className="mt-0.5 break-all font-medium">{user.email}</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink-subtle">Role</dt>
-            <dd className="mt-0.5 font-medium">{user.roleLabel}</dd>
+            <dt className="text-xs text-ink-subtle">{t('Role')}</dt>
+            <dd className="mt-0.5 font-medium">{t(user.roleLabel)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink-subtle">Member since</dt>
+            <dt className="text-xs text-ink-subtle">{t('Member since')}</dt>
             <dd className="mt-0.5 font-medium">{formatDate(user.createdAt)}</dd>
           </div>
         </dl>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Name" error={form.errors.name}>
+          <Field label={t('Name')} error={form.errors.name}>
             <Input autoComplete="name" {...form.bind('name')} />
           </Field>
-          <Field label="Phone" optional error={form.errors.phone}>
+          <Field label={t('Phone')} optional error={form.errors.phone}>
             <Input type="tel" autoComplete="tel" {...form.bind('phone')} />
           </Field>
         </div>
         <div className="flex justify-end">
           <Button type="submit" variant="outline" loading={busy}>
-            Save profile
+            {t('Save profile')}
           </Button>
         </div>
       </form>
@@ -297,9 +298,9 @@ function PasswordSettings() {
     try {
       setSession(await api.post<SessionPayload>('/auth/change-password', input));
       form.setValues({ currentPassword: '', newPassword: '', confirm: '' });
-      toast.success('Password changed. Other devices were signed out.');
+      toast.success(t('Password changed. Other devices were signed out.'));
     } catch (err) {
-      if (!form.applyServerError(err)) toast.error('Could not change password', { description: errorMessage(err) });
+      if (!form.applyServerError(err)) toast.error(t('Could not change password'), { description: errorMessage(err) });
     } finally {
       setBusy(false);
     }
@@ -307,20 +308,20 @@ function PasswordSettings() {
 
   return (
     <Panel>
-      <PanelHeader title="Password" description="Changing it signs you out on every other device." />
+      <PanelHeader title={t('Password')} description={t('Changing it signs you out on every other device.')} />
       <form onSubmit={onSubmit} noValidate className="grid gap-4 px-4 py-4 sm:grid-cols-3">
-        <Field label="Current password" error={form.errors.currentPassword}>
+        <Field label={t('Current password')} error={form.errors.currentPassword}>
           <Input type="password" autoComplete="current-password" {...form.bind('currentPassword')} />
         </Field>
-        <Field label="New password" error={form.errors.newPassword}>
+        <Field label={t('New password')} error={form.errors.newPassword}>
           <Input type="password" autoComplete="new-password" {...form.bind('newPassword')} />
         </Field>
-        <Field label="Repeat new password" error={form.errors.confirm}>
+        <Field label={t('Repeat new password')} error={form.errors.confirm}>
           <Input type="password" autoComplete="new-password" {...form.bind('confirm')} />
         </Field>
         <div className="flex justify-end sm:col-span-3">
           <Button type="submit" variant="outline" loading={busy}>
-            Change password
+            {t('Change password')}
           </Button>
         </div>
       </form>

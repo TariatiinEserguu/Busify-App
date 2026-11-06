@@ -14,7 +14,6 @@ import {
   createAlertConfig,
   createAlertState,
   evaluateReading,
-  formatDistance,
   rearmDistanceM,
   resetAlert as resetEngine,
   resumeAlertState,
@@ -26,6 +25,7 @@ import {
 import { useAuth } from '@/features/auth/AuthProvider';
 import { usePublicConfig, useUserSettings } from '@/features/appData';
 import { api, ApiError, errorMessage } from '@/lib/api';
+import { formatDistance as fmtDistance, t } from '@/lib/i18n';
 import type { ActiveJourneyPayload, Journey, RouteDetail } from '@/lib/types';
 import {
   flashTitle,
@@ -90,6 +90,19 @@ interface JourneyContextValue {
   complete: () => Promise<void>;
   resetAlert: () => Promise<void>;
   updateRadius: (radiusM: number) => Promise<void>;
+  /** Repeat the alarm every 30 s until the passenger reacts (local preference). */
+  repeatAlert: boolean;
+  setRepeatAlert: (on: boolean) => void;
+}
+
+const REPEAT_KEY = 'busify.repeatAlert';
+const SNOOZE_MS = 30_000;
+function readRepeat() {
+  try {
+    return localStorage.getItem(REPEAT_KEY) !== 'off';
+  } catch {
+    return true;
+  }
 }
 
 const JourneyContext = createContext<JourneyContextValue | null>(null);
@@ -128,6 +141,9 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertDistance, setAlertDistance] = useState<number | null>(null);
   const [wakeLockActive, setWakeLockActive] = useState(false);
+  const [repeatAlert, setRepeatAlertState] = useState(readRepeat);
+  const repeatRef = useRef(repeatAlert);
+  repeatRef.current = repeatAlert;
 
   // Refs keep the reading handler stable while always seeing current values.
   const engine = useRef<AlertState>(createAlertState());
@@ -216,21 +232,46 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     [updateJourney],
   );
 
+  /** Sound, vibration and the flashing title; repeats every 30 s while unanswered if enabled. */
+  const ring = useCallback(() => {
+    const s = settingsRef.current;
+    stopEffects.current.push(startAlarm({ sound: s.soundEnabled, vibration: s.vibrationEnabled }));
+    stopEffects.current.push(flashTitle(`🔔 ${t('Your stop is approaching!')}`));
+    if (repeatRef.current) {
+      const timer = window.setInterval(() => {
+        stopEffects.current.push(startAlarm({ sound: settingsRef.current.soundEnabled, vibration: settingsRef.current.vibrationEnabled }));
+      }, 30_000 + SNOOZE_MS);
+      stopEffects.current.push(() => window.clearInterval(timer));
+    }
+  }, []);
+
   const fireAlert = useCallback(
     (j: Journey, distanceM: number, accuracyM: number | null, simulated: boolean) => {
       const s = settingsRef.current;
       setAlertDistance(distanceM);
       setAlertOpen(true);
       stopAlertEffects();
-      stopEffects.current.push(startAlarm({ sound: s.soundEnabled, vibration: s.vibrationEnabled }));
-      stopEffects.current.push(flashTitle('🔔 Your stop is approaching!'));
+      ring();
       if (s.notificationsEnabled) {
-        void showSystemNotification('Your bus stop is approaching!', `${j.destinationName} is about ${formatDistance(distanceM)} away.`);
+        void showSystemNotification(t('Your bus stop is approaching!'), t('{stop} is about {distance} away.', { stop: j.destinationName, distance: fmtDistance(distanceM) }));
       }
       void sendAlert({ journeyId: j.id, distanceM, accuracyM, simulated });
     },
-    [sendAlert, stopAlertEffects],
+    [sendAlert, stopAlertEffects, ring],
   );
+
+  /** "Remind me again in 30 seconds": closes the alert and brings it back locally. */
+  const snooze = useCallback(() => {
+    stopAlertEffects();
+    setAlertOpen(false);
+    const timer = window.setTimeout(() => {
+      const j = journeyRef.current;
+      if (!j || j.status === 'COMPLETED' || j.status === 'CANCELLED') return;
+      setAlertOpen(true);
+      ring();
+    }, SNOOZE_MS);
+    stopEffects.current.push(() => window.clearTimeout(timer));
+  }, [ring, stopAlertEffects]);
 
   const handleReading = useCallback(
     (reading: PositionReading, simulated: boolean) => {
@@ -400,7 +441,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     try {
       return await fn();
     } catch (err) {
-      toast.error(failure, { description: errorMessage(err) });
+      toast.error(t(failure), { description: errorMessage(err) });
       return undefined;
     } finally {
       setBusy(false);
@@ -451,11 +492,11 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
         const payload = await api.post<ActiveJourneyPayload>('/journeys', input);
         engineJourneyId.current = null;
         setPayload(payload);
-        toast.success(`Tracking started — we will alert you near ${payload.journey?.destinationName}.`);
+        toast.success(t('Tracking started — we will alert you near {stop}.', { stop: payload.journey?.destinationName }));
         return true;
       } catch (err) {
         if (err instanceof ApiError && err.code === 'ACTIVE_JOURNEY_EXISTS') throw err;
-        toast.error('Could not start the journey', { description: errorMessage(err) });
+        toast.error(t('Could not start the journey'), { description: errorMessage(err) });
         return false;
       } finally {
         setBusy(false);
@@ -478,13 +519,22 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       engine.current = resetEngine(engine.current, alertConfigRef.current);
       setAlertState(engine.current);
       updateJourney(res.journey);
-      toast.success(stillNearStop ? 'Alert re-armed. It will sound again after you move away and come back.' : 'Alert re-armed.');
+      toast.success(stillNearStop ? t('Alert re-armed. It will sound again after you move away and come back.') : t('Alert re-armed.'));
     },
     async updateRadius(alertRadiusM) {
       const j = journeyRef.current;
       if (!j) return;
       const res = await run(() => api.patch<{ journey: Journey }>(`/journeys/${j.id}`, { alertRadiusM }), 'Could not change the alert distance');
       if (res) updateJourney(res.journey);
+    },
+    repeatAlert,
+    setRepeatAlert(on) {
+      setRepeatAlertState(on);
+      try {
+        localStorage.setItem(REPEAT_KEY, on ? 'on' : 'off');
+      } catch {
+        // not persisted
+      }
     },
   };
 
@@ -497,6 +547,10 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
           destinationName={journey.destinationName}
           distanceM={alertDistance}
           busy={busy}
+          sound={settings.soundEnabled}
+          vibration={settings.vibrationEnabled}
+          journeyId={journey.id}
+          onSnooze={snooze}
           onDismiss={() => {
             stopAlertEffects();
             setAlertOpen(false);

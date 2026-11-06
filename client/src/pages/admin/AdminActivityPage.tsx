@@ -12,6 +12,7 @@ import { PageHeader, Panel, Table, Td, Th } from '@/components/ui/layout';
 import { api, errorMessage, qs } from '@/lib/api';
 import type { AuditLogEntry, ErrorLogEntry } from '@/lib/types';
 import { cn, formatDateTime } from '@/lib/utils';
+import { t } from '@/lib/i18n';
 
 const ENTITY_TYPES = ['route', 'stop', 'user', 'ticket', 'settings', 'system'];
 
@@ -22,8 +23,8 @@ function Pager({ page, total, pageSize, onPage }: { page: number; total: number;
     <div className="flex items-center justify-between border-t border-line px-4 py-3 text-sm">
       <span className="text-ink-muted">Page {page} of {pages} · {total} entries</span>
       <div className="flex gap-2">
-        <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => onPage(page - 1)}>Previous</Button>
-        <Button size="sm" variant="outline" disabled={page >= pages} onClick={() => onPage(page + 1)}>Next</Button>
+        <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => onPage(page - 1)}>{t('Previous')}</Button>
+        <Button size="sm" variant="outline" disabled={page >= pages} onClick={() => onPage(page + 1)}>{t('Next')}</Button>
       </div>
     </div>
   );
@@ -42,13 +43,13 @@ function AuditLogTab() {
   return (
     <>
       <div className="mb-3 flex flex-wrap gap-2">
-        <Select className="w-auto" value={entityType} onChange={(e) => { setEntityType(e.target.value); setPage(1); }} aria-label="Record type">
-          <option value="">All record types</option>
+        <Select className="w-auto" value={entityType} onChange={(e) => { setEntityType(e.target.value); setPage(1); }} aria-label={t('Record type')}>
+          <option value="">{t('All record types')}</option>
           {ENTITY_TYPES.map((t) => <option key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</option>)}
         </Select>
         <div className="relative w-full sm:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-subtle" aria-hidden />
-          <Input type="search" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search the summary" className="pl-9" aria-label="Search activity" />
+          <Input type="search" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder={t('Search the summary')} className="pl-9" aria-label={t('Search activity')} />
         </div>
       </div>
       <Panel className={cn(query.isFetching && !query.isLoading && 'opacity-80')}>
@@ -57,16 +58,16 @@ function AuditLogTab() {
         ) : query.isError ? (
           <div className="p-4"><Callout tone="error">{errorMessage(query.error)}</Callout></div>
         ) : query.data!.logs.length === 0 ? (
-          <EmptyState icon={ScrollText} title="No activity matches" />
+          <EmptyState icon={ScrollText} title={t('No activity matches')} />
         ) : (
           <Table>
             <thead>
               <tr>
-                <Th className="w-44">When</Th>
-                <Th>What happened</Th>
-                <Th className="hidden md:table-cell">Who</Th>
-                <Th className="hidden lg:table-cell">Action</Th>
-                <Th className="hidden xl:table-cell">IP address</Th>
+                <Th className="w-44">{t('When')}</Th>
+                <Th>{t('What happened')}</Th>
+                <Th className="hidden md:table-cell">{t('Who')}</Th>
+                <Th className="hidden lg:table-cell">{t('Action')}</Th>
+                <Th className="hidden xl:table-cell">{t('IP address')}</Th>
               </tr>
             </thead>
             <tbody>
@@ -101,10 +102,10 @@ function ErrorLogTab() {
   return (
     <>
       <div className="mb-3 flex flex-wrap gap-2">
-        <Select className="w-auto" value={source} onChange={(e) => { setSource(e.target.value); setPage(1); }} aria-label="Error source">
-          <option value="">Server and web app</option>
-          <option value="SERVER">Server only</option>
-          <option value="CLIENT">Web app only (GPS, map tiles, scripts)</option>
+        <Select className="w-auto" value={source} onChange={(e) => { setSource(e.target.value); setPage(1); }} aria-label={t('Error source')}>
+          <option value="">{t('Server and web app')}</option>
+          <option value="SERVER">{t('Server only')}</option>
+          <option value="CLIENT">{t('Web app only (GPS, map tiles, scripts)')}</option>
         </Select>
       </div>
       <Panel>
@@ -113,7 +114,7 @@ function ErrorLogTab() {
         ) : query.isError ? (
           <div className="p-4"><Callout tone="error">{errorMessage(query.error)}</Callout></div>
         ) : query.data!.errors.length === 0 ? (
-          <EmptyState icon={AlertOctagon} title="No errors recorded">Unexpected server errors and problems reported by browsers appear here.</EmptyState>
+          <EmptyState icon={AlertOctagon} title={t('No errors recorded')}>{t('Unexpected server errors and problems reported by browsers appear here.')}</EmptyState>
         ) : (
           <ul className="divide-y divide-line">
             {query.data!.errors.map((e) => (
@@ -152,11 +153,11 @@ export default function AdminActivityPage() {
   const tab = params.get('tab') === 'errors' ? 'errors' : 'audit';
   return (
     <Page width="wide">
-      <PageHeader title="Activity & errors" description="The audit trail of administrative and support actions, and the error log for troubleshooting." />
+      <PageHeader title={t('Activity & errors')} description={t('The audit trail of administrative and support actions, and the error log for troubleshooting.')} />
       <Tabs value={tab} onValueChange={(v) => setParams(v === 'errors' ? { tab: 'errors' } : {}, { replace: true })}>
         <TabsList className="mb-4">
-          <TabsTrigger value="audit"><ScrollText aria-hidden /> Audit log</TabsTrigger>
-          <TabsTrigger value="errors"><AlertOctagon aria-hidden /> Error log</TabsTrigger>
+          <TabsTrigger value="audit"><ScrollText aria-hidden /> {t('Audit log')}</TabsTrigger>
+          <TabsTrigger value="errors"><AlertOctagon aria-hidden /> {t('Error log')}</TabsTrigger>
         </TabsList>
         <TabsContent value="audit"><AuditLogTab /></TabsContent>
         <TabsContent value="errors"><ErrorLogTab /></TabsContent>
